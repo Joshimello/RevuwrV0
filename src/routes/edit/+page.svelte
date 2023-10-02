@@ -1,10 +1,10 @@
 <script lang="ts">
 	import * as I from 'svelte-feather-icons';
-	import { nanoid } from 'nanoid'
+	import { nanoid } from 'nanoid';
 	import { schema } from '$lib/stores/edit';
 
-	import Title from '$lib/edit/Title.svelte'
-	import Description from '$lib/edit/Description.svelte'
+	import Title from '$lib/edit/Title.svelte';
+	import Description from '$lib/edit/Description.svelte';
 	import Text from '$lib/edit/Text.svelte';
 	import File from '$lib/edit/File.svelte';
 	import Radio from '$lib/edit/Radio.svelte';
@@ -23,18 +23,18 @@
 		checkbox: { icon: I.CheckSquareIcon, comp: Checkbox }
 	};
 
-	const addField = (field:string) => {
-		$schema[nanoid(8)] = { type: field }
-	}
+	const addField = (field: string) => {
+		$schema[nanoid(8)] = { type: field };
+	};
 </script>
 
 <div class="flex flex-col gap-8 p-8">
-	<Title/>
-	<Description/>
+	<Title />
+	<Description />
 
 	{#each Object.entries($schema) as [uid, { type, remove }]}
 		{#if !remove}
-			<svelte:component this={fields[type].comp} {uid}/>
+			<svelte:component this={fields[type].comp} {uid} />
 		{/if}
 	{/each}
 

@@ -1,31 +1,31 @@
 <script lang="ts">
 	import Editor from '@tinymce/tinymce-svelte';
 	import script from 'tinymce/tinymce.min.js?url';
-	import { TrashIcon } from 'svelte-feather-icons'
+	import { TrashIcon } from 'svelte-feather-icons';
 	import { schema } from '$lib/stores/edit';
 
-	export let uid:string
+	export let uid: string;
 
 	let value = {
 		title: '',
 		subtitle: ''
 	};
 
-	$: value, $schema[uid].value = value
+	$: value, ($schema[uid].value = value);
 
 	const remove = () => {
-		$schema[uid].remove = true
+		$schema[uid].remove = true;
 		// schema.update(s => {
 		// 	const t = { ...s }
 		// 	delete t[uid];
 		// 	return t
 		// })
-	}
+	};
 </script>
 
 <div class="flex items-center gap-4">
 	<button class="flex items-center justify-center w-12 h-12 border-2 rounded-lg" on:click={remove}>
-		<TrashIcon/>		
+		<TrashIcon />
 	</button>
 	<div class="flex flex-col gap-1 w-full">
 		<input
