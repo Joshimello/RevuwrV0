@@ -6,7 +6,7 @@
 
 	export let uid: string;
 
-	let value = {
+	let value = $schema[uid].value || {
 		title: '',
 		subtitle: ''
 	};
