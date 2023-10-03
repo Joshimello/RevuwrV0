@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto } from '$app/navigation'
+	import { goto } from '$app/navigation';
 	import * as I from 'svelte-feather-icons';
 
 	import { nanoid } from 'nanoid';
@@ -34,27 +34,25 @@
 				description: $description,
 				schema: $schema
 			})
-		})
+		});
 
-		const data = await response.json()
-		const url = JSON.parse(data.data)[0]
-		await goto(url)
-	}
+		const data = await response.json();
+		const url = JSON.parse(data.data)[0];
+		await goto(url);
+	};
 
-	export let data
-	$title = data.title
-	$description = data.description
-	$schema = data.schema
-	console.log(data)
+	export let data;
+	$title = data.title;
+	$description = data.description;
+	$schema = data.schema;
+	console.log(data);
 
 	schema.subscribe(() => {
 		console.log(JSON.stringify($schema, undefined, 2));
 	});
-	
 </script>
 
 <div class="flex flex-col gap-8 p-8">
-
 	<Title />
 	<Description />
 
@@ -79,9 +77,6 @@
 	</div>
 
 	<div class="flex">
-		<button class="border-2 rounded-lg p-2 w-full" on:click={post}>
-			Save form
-		</button>
+		<button class="border-2 rounded-lg p-2 w-full" on:click={post}> Save form </button>
 	</div>
-
 </div>
