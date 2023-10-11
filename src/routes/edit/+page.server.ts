@@ -29,6 +29,15 @@ export const actions = {
 		};
 
 		const record = await pb.collection('forms').create(data);
+
+		await pb.collections.create({
+			name: record.id,
+			type: 'base',
+			schema: [
+				{ name: 'temp', type: 'text' }
+			]
+		})
+
 		return '/edit/' + record.id;
 	},
 

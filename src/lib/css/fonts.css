@@ -1,0 +1,23 @@
+@font-face {
+  font-family: 'Source Han Sans TC Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url(SourceHanSansTC-VF.otf.woff2) format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'Source Han Sans JP Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url(SourceHanSans-VF.otf.woff2) format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'Source Han Sans KR Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url(SourceHanSansK-VF.otf.woff2) format('woff2-variations');
+}

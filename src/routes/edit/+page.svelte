@@ -2,7 +2,6 @@
 	import { goto } from '$app/navigation';
 
 	export let data;
-	console.log(data);
 	let forms = data.forms;
 
 	const post = async () => {
