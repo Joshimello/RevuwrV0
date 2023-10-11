@@ -27,6 +27,10 @@ export const actions = {
 			schema: schema
 		});
 
+		// await pb.collections.update(params.slug, {
+		// 	schema
+		// })
+
 		return '/edit';
 	}
 };
