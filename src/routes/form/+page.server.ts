@@ -5,9 +5,9 @@ export const load = async () => {
 	const pb = new PocketBase(PB_URL);
 	await pb.admins.authWithPassword(PB_USER, PB_PASS);
 
-	const collections = await pb.collections.getFullList();
+	const records = await pb.collection('forms').getFullList();
 
 	return {
-		body: collections
+		forms: records
 	};
 };

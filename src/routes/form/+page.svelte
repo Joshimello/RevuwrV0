@@ -1,9 +1,21 @@
-<script>
+<script lang="ts">
+	import { goto } from '$app/navigation';
+
 	export let data;
+	const forms = data.forms
+
+	const go = (id: string) => {
+		goto('/form/' + id);
+	}
 </script>
 
-<div class="bg-slate-800 w-full rounded-3xl p-12">
-	<span class="text-4xl text-white font-600">
-		共學圈圈
-	</span>
+<div class="flex flex-col gap-4">
+	{#each forms as { id, title, created, updated }}
+		<div class="flex gap-4">
+			<span>{created}</span>
+			<span>{updated}</span>
+			<span>{title}</span>
+			<button on:click={() => go(id)}> go </button>
+		</div>
+	{/each}
 </div>

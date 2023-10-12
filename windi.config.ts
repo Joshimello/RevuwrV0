@@ -11,9 +11,7 @@ export default {
 				]
 			},
 			colors: {
-				primary: '#5755FF',
-				secondary: '#FF8F6B',
-				tertiary: '#FEB63D'
+				c1: '#CDD2E2',
 			}
 		}
 	},

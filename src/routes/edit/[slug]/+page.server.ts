@@ -23,10 +23,17 @@ export const actions = {
 		const body = await request.json();
 		const { title, description, schema } = body;
 
+		const filteredSchema = Object.keys(schema).reduce((acc, key) => {
+			if(!schema[key].remove){
+				acc[key] = schema[key]
+			}
+			return acc
+		}, {})
+
 		await pb.collection('forms').update(params.slug, {
 			title: title,
 			description: description,
-			schema: schema
+			schema: filteredSchema
 		});
 
 		const collectionSchema = Object.entries(schema)
