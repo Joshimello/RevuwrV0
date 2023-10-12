@@ -2,7 +2,6 @@
 	import { goto } from '$app/navigation';
 	import * as I from 'svelte-feather-icons';
 
-	import { nanoid } from 'nanoid';
 	import { title, description, schema } from '$lib/stores/edit';
 
 	import Title from '$lib/edit/Title.svelte';
@@ -23,7 +22,8 @@
 	};
 
 	const addField = (field: string) => {
-		$schema[nanoid(8)] = { type: field };
+		const uid = new Date().getTime()
+		$schema[uid] = { type: field };
 	};
 
 	const post = async () => {
@@ -45,11 +45,10 @@
 	$title = data.title;
 	$description = data.description;
 	$schema = data.schema;
-	console.log(data);
 
-	schema.subscribe(() => {
-		console.log(JSON.stringify($schema, undefined, 2));
-	});
+	// schema.subscribe(() => {
+	// 	console.log(JSON.stringify($schema, undefined, 2));
+	// });
 </script>
 
 <div class="flex flex-col gap-8 p-8">
