@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Editor from '@tinymce/tinymce-svelte';
-	import script from 'tinymce/tinymce.min.js?url';
 	import { TrashIcon } from 'svelte-feather-icons';
 	import { schema } from '$lib/stores/edit';
 
@@ -34,8 +33,8 @@
 			bind:value={value.title}
 		/>
 		<Editor
+			scriptSrc="/tinymce/tinymce.min.js"
 			disabled
-			scriptSrc={script}
 			conf={{
 				branding: false,
 				promotion: false,

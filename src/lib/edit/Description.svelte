@@ -1,14 +1,13 @@
 <script lang="ts">
 	import Editor from '@tinymce/tinymce-svelte';
-	import script from 'tinymce/tinymce.min.js?url';
 	import { description } from '$lib/stores/edit';
 </script>
 
 <div class="flex flex-col gap-1">
 	<span> Description </span>
 	<Editor
+		scriptSrc="/tinymce/tinymce.min.js"
 		bind:value={$description}
-		scriptSrc={script}
 		conf={{
 			branding: false,
 			promotion: false,

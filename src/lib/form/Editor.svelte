@@ -1,6 +1,5 @@
 <script lang="ts">
   import Editor from '@tinymce/tinymce-svelte';
-  import script from 'tinymce/tinymce.min.js?url';
 
   export let params, value:string = ''
   const { title, subtitle } = params
@@ -18,8 +17,8 @@
 
   <div class="bg-c3 rounded-xl">
     <Editor
+      scriptSrc="/tinymce/tinymce.min.js"
       bind:value
-      scriptSrc={script}
       conf={{
         placeholder: title,
         branding: false,
