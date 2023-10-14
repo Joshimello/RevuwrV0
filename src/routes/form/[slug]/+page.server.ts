@@ -14,3 +14,16 @@ export const load = async ({ params }) => {
   }
 
 };
+
+export const actions = {
+  default: async ({ request, params }) => {
+    const pb = new PocketBase(PB_URL);
+    await pb.admins.authWithPassword(PB_USER, PB_PASS);
+
+    const body = await request.json();
+
+    await pb.collection(params.slug).create(body);
+
+    return '/form';
+  }
+};

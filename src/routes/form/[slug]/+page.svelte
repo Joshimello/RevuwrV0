@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { goto } from '$app/navigation';
+  
   import Text from '$lib/form/Text.svelte'
   import Editor from '$lib/form/Editor.svelte'
   import File from '$lib/form/File.svelte'
@@ -15,7 +17,20 @@
 
   export let data
   const { title, description, schema } = data
-  console.log(schema)
+  
+  let input = {}
+  // $: input, console.log(JSON.stringify(input, null, 2))
+
+  const post = async () => {
+    const response = await fetch(window.location.href, {
+      method: 'POST',
+      body: JSON.stringify(input)
+    });
+
+    const data = await response.json();
+    const url = JSON.parse(data.data)[0];
+    await goto(url);
+  };
 </script>
 
 <div class="h-full flex">
@@ -33,9 +48,14 @@
       {@html description}
     </div>
   </div>
+
   <div class="h-full w-3/5 p-16 flex flex-col gap-12 overflow-auto scrollbar-thin scrollbar-thumb-c1 scrollbar-thumb-rounded">
     {#each Object.entries(schema) as [uid, {type, value}]}
-      <svelte:component this={fields[type]} params={value} />
+      <svelte:component this={fields[type]} params={value} bind:value={input[uid]} />
     {/each}
+
+    <button class="bg-black text-white p-4 rounded-xl my-16" on:click={post}>
+      submit ->
+    </button>
   </div>
 </div>
