@@ -1,4 +1,18 @@
-<script>
+<script lang="ts">
+  import Text from '$lib/form/Text.svelte'
+  import Editor from '$lib/form/Editor.svelte'
+  import File from '$lib/form/File.svelte'
+  import Radio from '$lib/form/Radio.svelte'
+  import Checkbox from '$lib/form/Checkbox.svelte'
+
+  const fields = {
+    text: Text,
+    editor: Editor,
+    file: File,
+    radio: Radio,
+    checkbox: Checkbox
+  }
+
   export let data
   const { title, description, schema } = data
   console.log(schema)
@@ -12,36 +26,16 @@
       <span class="underline underline-offset-4 ml-auto">ZH</span>
       <span class="underline underline-offset-4">LOGIN</span>
     </div>
-    <span class="text-2xl font-600">
+    <span class="text-2xl font-300 font-serif">
       {title}
     </span>
     <div>
       {@html description}
     </div>
   </div>
-  <div class="h-full w-3/5 p-16 flex flex-col">
+  <div class="h-full w-3/5 p-16 flex flex-col gap-12 overflow-auto scrollbar-thin scrollbar-thumb-c1 scrollbar-thumb-rounded">
     {#each Object.entries(schema) as [uid, {type, value}]}
-      {#if type == 'text'}
-        <div class="">
-          <input class=""/>
-        </div>
-      {:else if type == 'editor'}
-        <div class="">
-          <input class=""/>
-        </div>
-      {:else if type == 'file'}
-        <div class="">
-          <input class=""/>
-        </div>
-      {:else if type == 'radio'}
-        <div class="">
-          <input class=""/>
-        </div>
-      {:else if type == 'checkbox'}
-        <div class="">
-          <input class=""/>
-        </div>
-      {/if}
+      <svelte:component this={fields[type]} params={value} />
     {/each}
   </div>
 </div>

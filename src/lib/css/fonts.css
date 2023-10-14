@@ -22,6 +22,14 @@
   src: url(/SourceHanSansK-VF.otf.woff2) format('woff2-variations');
 }
 
+@font-face {
+  font-family: 'Source Han Serif TC Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url(/SourceHanSerifTW-VF.ttf.woff2) format('woff2-variations');
+}
+
 .custom-bg {
   background:
     radial-gradient(circle at 0% 0%,  #FDE7EC, rgba(255,0,0,0) 70.71%), 
