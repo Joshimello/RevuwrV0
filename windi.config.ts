@@ -1,5 +1,4 @@
 export default {
-	// plugins: [require("daisyui")],
 	theme: {
 		extend: {
 			fontFamily: {
@@ -12,6 +11,9 @@ export default {
 				serif: [
 					'Source Han Serif TC Variable',
 				],
+				display: [
+					'Quicksand Variable'
+				]
 			},
 			colors: {
 				c1: '#CDD2E2',
@@ -27,4 +29,4 @@ export default {
 		require('windicss/plugin/aspect-ratio'),
 		require('@windicss/plugin-scrollbar'),
 	]
-};
+};	

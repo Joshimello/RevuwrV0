@@ -35,16 +35,11 @@
 
 <div class="h-full flex">
   <div class="h-full w-2/5 rounded-3xl custom-bg p-16 flex flex-col">
-    <div class="flex gap-4 pb-12">
-      <span>NTHU</span>
-      <span>CTLD</span>
-      <span class="underline underline-offset-4 ml-auto">ZH</span>
-      <span class="underline underline-offset-4">LOGIN</span>
-    </div>
+
     <span class="text-2xl font-300 font-serif">
       {title}
     </span>
-    <div>
+    <div class="revert w-full break-words overflow-y-auto scrollbar-thin scrollbar-thumb-c1 scrollbar-thumb-rounded">
       {@html description}
     </div>
   </div>

@@ -29,10 +29,3 @@
   font-weight: 100 900;
   src: url(/SourceHanSerifTW-VF.ttf.woff2) format('woff2-variations');
 }
-
-.custom-bg {
-  background:
-    radial-gradient(circle at 0% 0%,  #FDE7EC, rgba(255,0,0,0) 70.71%), 
-    radial-gradient(circle at 0% 100%, #DED8F3, rgba(0,0,255,0) 70.71%), 
-    radial-gradient(circle at 100% 50%, #EFF0F6, rgba(0,255,0,0) 70.71%);
-}

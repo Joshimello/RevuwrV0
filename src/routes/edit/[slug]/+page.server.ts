@@ -89,6 +89,6 @@ export const actions = {
 			schema: collectionSchema,
 		})
 
-		return '/edit';
+		return '/';
 	}
 };

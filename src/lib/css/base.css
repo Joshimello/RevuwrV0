@@ -1,0 +1,10 @@
+.custom-bg {
+  background:
+    radial-gradient(circle at 0% 0%,  #FDE7EC, rgba(255,0,0,0) 70.71%), 
+    radial-gradient(circle at 0% 100%, #DED8F3, rgba(0,0,255,0) 70.71%), 
+    radial-gradient(circle at 100% 50%, #EFF0F6, rgba(0,255,0,0) 70.71%);
+}
+
+.revert td {
+  border: 1px solid #000
+}

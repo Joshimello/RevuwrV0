@@ -24,6 +24,6 @@ export const actions = {
 
     await pb.collection(params.slug).create(body);
 
-    return '/form';
+    return '/';
   }
 };
