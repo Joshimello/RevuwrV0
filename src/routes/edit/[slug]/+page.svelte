@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import * as I from 'svelte-feather-icons';
 
-	import { title, description, schema } from '$lib/stores/edit';
+	import { title, description, schema, start, end } from '$lib/stores/edit';
 
 	import Title from '$lib/edit/Title.svelte';
 	import Description from '$lib/edit/Description.svelte';
@@ -32,7 +32,9 @@
 			body: JSON.stringify({
 				title: $title,
 				description: $description,
-				schema: $schema
+				schema: $schema,
+				start: $start,
+				end: $end
 			})
 		});
 
@@ -45,6 +47,8 @@
 	$title = data.title;
 	$description = data.description;
 	$schema = data.schema;
+	$start = data.start ? new Date(data.start).toISOString().slice(0, 19).replace('T', ' ') : undefined;
+	$end = data.end ? new Date(data.end).toISOString().slice(0, 19).replace('T', ' ') : undefined;
 
 	// schema.subscribe(() => {
 	// 	console.log(JSON.stringify($schema, undefined, 2));
@@ -54,6 +58,18 @@
 <div class="flex flex-col gap-8 p-8">
 	<Title />
 	<Description />
+
+	<div class="flex items-center gap-8">
+		<div class="flex flex-col gap-1">
+			<span>Starting Date</span>
+			<input class="bg-transparent border-2 rounded-xl p-2" type="datetime-local" bind:value={$start} />
+		</div>
+		<span>-></span>
+		<div class="flex flex-col gap-1">
+			<span>Ending Date</span>
+			<input class="bg-transparent border-2 rounded-xl p-2" type="datetime-local" bind:value={$end} />
+		</div>
+	</div>
 
 	{#each Object.entries($schema) as [uid, { type, remove }]}
 		{#if !remove}

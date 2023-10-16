@@ -21,7 +21,7 @@ export const actions = {
 		await pb.admins.authWithPassword(PB_USER, PB_PASS);
 
 		const body = await request.json();
-		const { title, description, schema } = body;
+		const { title, description, schema, start, end } = body;
 
 		const filteredSchema = Object.keys(schema).reduce((acc, key) => {
 			if(!schema[key].remove){
@@ -33,7 +33,9 @@ export const actions = {
 		await pb.collection('forms').update(params.slug, {
 			title: title,
 			description: description,
-			schema: filteredSchema
+			schema: filteredSchema,
+			start: new Date(start),
+			end: new Date(end)
 		});
 
 		const collectionSchema = Object.entries(schema)

@@ -12,7 +12,8 @@ export default {
 					'Source Han Serif TC Variable',
 				],
 				display: [
-					'Quicksand Variable'
+					'Quicksand Variable',
+					'Source Han Sans TC Variable',
 				]
 			},
 			colors: {

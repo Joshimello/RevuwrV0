@@ -2,13 +2,13 @@ import { PB_URL, PB_USER, PB_PASS } from '$env/static/private';
 import { error, redirect } from '@sveltejs/kit';
 import PocketBase from 'pocketbase';
 
-export const load = async ({ params }) => {
+export const load = async ({ params, cookies }) => {
   const pb = new PocketBase(PB_URL);
   await pb.admins.authWithPassword(PB_USER, PB_PASS);
 
   const records = await pb.collection('forms').getFullList({
     sort: '-created',
-    fields: 'created,updated,id,title'
+    fields: 'created,updated,id,title,start,end'
   });
 
   return {

@@ -33,6 +33,9 @@
   };
 </script>
 
+<div class="w-full h-100vh bg-c1 p-16 flex flex-col gap-4">
+  <div class="w-full h-full bg-white shadow-xl rounded-4xl p-4">
+
 <div class="h-full flex">
   <div class="h-full w-2/5 rounded-3xl custom-bg p-16 flex flex-col">
 
@@ -52,5 +55,8 @@
     <button class="bg-black text-white p-4 rounded-xl my-16" on:click={post}>
       submit ->
     </button>
+  </div>
+</div>
+
   </div>
 </div>
