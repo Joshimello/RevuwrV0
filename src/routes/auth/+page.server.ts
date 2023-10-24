@@ -1,33 +1,21 @@
-import { PB_URL, PB_USER, PB_PASS } from '$env/static/private';
-import { error } from '@sveltejs/kit';
-import PocketBase from 'pocketbase';
-
-export const load = async ({ params }) => {
-
-};
+import { redirect } from '@sveltejs/kit';
 
 export const actions = {
-  default: async ({ request, params, cookies }) => {
-    const pb = new PocketBase(PB_URL);
-
-    const body = await request.json();
-    const { user, pass } = body;
-
-    console.log(cookies.get('uwu'))
+  default: async ({ locals, request }) => {
+    const data = await request.formData();
+    const user = data.get('user')
+    const pass = data.get('pass')
 
     try {
-      const authData = await pb.collection('users').authWithPassword(user, pass);
+      await locals.pb.collection('users').authWithPassword(user, pass)
+    }
+    catch (err) {
+      // auth error
     }
 
-    catch(err) {
-      throw error(401, 'Unauthorized')
+    if(locals.user){
+      throw redirect(302, '/dashboard')
     }
 
-    cookies.set('uwu', pb.authStore.token)
-    // console.log(pb.authStore.isValid);
-    // console.log(pb.authStore.token);
-    // console.log(pb.authStore.model.id);
-
-    return '/';
-  }
+  },
 };

@@ -1,9 +1,10 @@
 <script>
-	import 'virtual:windi.css';
-	import '@fontsource-variable/inter';
-	import '@fontsource-variable/quicksand'
-	import '$lib/css/base.css'
+	import * as C from 'carbon-components-svelte'
 	import '$lib/css/fonts.css'
+	import 'virtual:windi.css'
+	import 'carbon-components-svelte/css/all.css'
 </script>
 
 <slot />
+
+<C.Theme theme="white" />
