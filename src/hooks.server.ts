@@ -33,6 +33,10 @@ export const handle = sequence(Sentry.sentryHandle(), async ({ event, resolve })
     throw redirect(307, '/auth')
   }
 
+  if(event.locals.user.admin == false && event.url.pathname.startsWith('/admin')) {
+    throw redirect(302, '/')
+  }
+
   const response = await resolve(event);
 
   response.headers.append('set-cookie', event.locals.pb.authStore.exportToCookie({ secure: false }));

@@ -1,4 +1,4 @@
-import { redirect } from '@sveltejs/kit';
+import { redirect, fail } from '@sveltejs/kit';
 
 export const actions = {
   default: async ({ locals, request }) => {
@@ -10,7 +10,7 @@ export const actions = {
       await locals.pb.collection('users').authWithPassword(user, pass)
     }
     catch (err) {
-      // auth error
+      return fail(400, true);
     }
 
     if(locals.user){

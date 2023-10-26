@@ -18,6 +18,7 @@
 		"@sveltejs/kit": "^1.20.4",
 		"@tinymce/tinymce-svelte": "^1.0.1",
 		"@windicss/plugin-scrollbar": "^1.2.3",
+		"carbon-icons-svelte": "^12.3.0",
 		"daisyui": "^3.8.0",
 		"nanoid": "^5.0.1",
 		"pocketbase": "^0.18.0",
