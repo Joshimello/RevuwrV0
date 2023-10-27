@@ -1,8 +1,55 @@
 <script>
   import * as C from 'carbon-components-svelte';
+  import ChevronUp from "carbon-icons-svelte/lib/ChevronUp.svelte";
+  import ChevronDown from "carbon-icons-svelte/lib/ChevronDown.svelte";
   import TrashCan from "carbon-icons-svelte/lib/TrashCan.svelte";
-  import Add from "carbon-icons-svelte/lib/Add.svelte";
 
-  let schema = {}
+  import TextShortParagraph from "carbon-icons-svelte/lib/TextShortParagraph.svelte";
+  import TextLongParagraph from "carbon-icons-svelte/lib/TextLongParagraph.svelte";
+  import RadioButtonChecked from "carbon-icons-svelte/lib/RadioButtonChecked.svelte";
+  import CheckboxChecked from "carbon-icons-svelte/lib/CheckboxChecked.svelte";
+  import Document from "carbon-icons-svelte/lib/Document.svelte";
+  import TableSplit from "carbon-icons-svelte/lib/TableSplit.svelte";
+
+  import ShortText from '$lib/edit/ShortText.svelte'
+  
+  const questionTypes = {
+    'ShortText': { comp: ShortText, icon: TextShortParagraph },
+    'LongText': { comp: ShortText, icon: TextLongParagraph },
+    'Radio': { comp: ShortText, icon: RadioButtonChecked },
+    'Checkbox': { comp: ShortText, icon: CheckboxChecked },
+    'File': { comp: ShortText, icon: Document },
+    'Table': { comp: ShortText, icon: TableSplit },
+  }
+
+  let schema = []
+  $: schema, console.log(JSON.stringify(schema, null, 2))
 </script>
-dadwad
+
+<div class="flex flex-col gap-8">
+  {#each schema as { type }, idx}
+  <div class="flex w-full gap-2">
+    <div class="flex flex-col">
+      <C.Button kind="ghost" iconDescription="Move up" icon={ChevronUp} tooltipPosition="right" disabled={idx == 0} on:click={() => {
+        [schema[idx], schema[idx-1]] = [schema[idx-1], schema[idx]];
+      }}/> 
+      <C.Button kind="danger-ghost" iconDescription="Delete" icon={TrashCan} tooltipPosition="right" on:click={() => {
+        schema.splice(idx, 1)
+        schema = [...schema]
+      }}/>
+      <C.Button kind="ghost" iconDescription="Move down" icon={ChevronDown} tooltipPosition="right" disabled={idx == schema.length-1} on:click={() => {
+        [schema[idx], schema[idx+1]] = [schema[idx+1], schema[idx]];
+      }}/>
+    </div>
+    <svelte:component this={questionTypes[type].comp} bind:value={schema[idx].details}/>
+  </div>
+  {/each}
+</div>
+
+<div class="py-16 flex gap-1 w-full justify-center">
+  {#each Object.entries(questionTypes) as [type, { comp, icon }]}
+  <C.Button kind="tertiary" icon={icon} iconDescription={'Add ' + type} on:click={() => {
+    schema = [...schema, { type: type, details: {} }]
+  }}/>
+  {/each}
+</div>
