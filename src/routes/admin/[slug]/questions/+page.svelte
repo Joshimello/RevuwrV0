@@ -12,14 +12,19 @@
   import TableSplit from "carbon-icons-svelte/lib/TableSplit.svelte";
 
   import ShortText from '$lib/edit/ShortText.svelte'
+  import LongText from '$lib/edit/LongText.svelte'
+  import Radio from '$lib/edit/Radio.svelte'
+  import Checkbox from '$lib/edit/Checkbox.svelte'
+  import File from '$lib/edit/File.svelte'
+  import Table from '$lib/edit/Table.svelte'
   
   const questionTypes = {
     'ShortText': { comp: ShortText, icon: TextShortParagraph },
-    'LongText': { comp: ShortText, icon: TextLongParagraph },
-    'Radio': { comp: ShortText, icon: RadioButtonChecked },
-    'Checkbox': { comp: ShortText, icon: CheckboxChecked },
-    'File': { comp: ShortText, icon: Document },
-    'Table': { comp: ShortText, icon: TableSplit },
+    'LongText': { comp: LongText, icon: TextLongParagraph },
+    'Radio': { comp: Radio, icon: RadioButtonChecked },
+    'Checkbox': { comp: Checkbox, icon: CheckboxChecked },
+    'File': { comp: File, icon: Document },
+    'Table': { comp: Table, icon: TableSplit },
   }
 
   let schema = []
