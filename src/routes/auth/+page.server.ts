@@ -8,13 +8,13 @@ export const actions = {
 
     try {
       await locals.pb.collection('users').authWithPassword(user, pass)
+      throw redirect(302, '/dashboard')
     }
     catch (err) {
+      if(err?.status == 302){
+        throw redirect(302, '/dashboard')
+      }
       return fail(400, true);
-    }
-
-    if(locals.user){
-      throw redirect(302, '/dashboard')
     }
 
   },
