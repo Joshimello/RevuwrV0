@@ -14,7 +14,7 @@
 </script>
 
 <div class="flex flex-col gap-4">
-  <h1>Editing {name}</h1>
+  <h2>Editing {name} details</h2>
 
   {#if form?.success == false}
     <C.InlineNotification title="Error updating"/>
