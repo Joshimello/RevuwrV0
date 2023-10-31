@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from 'svelte'
   import * as C from 'carbon-components-svelte';
   import ChevronUp from "carbon-icons-svelte/lib/ChevronUp.svelte";
   import ChevronDown from "carbon-icons-svelte/lib/ChevronDown.svelte";
@@ -31,9 +32,12 @@
   $: ({ name, description, start, end, questions } = data)
 
   let schema = []
-  $: if(questions && schema.length == 0){
-    schema = questions
-  }
+
+  onMount(() => {
+    if(questions){
+      schema = questions
+    }
+  })
 
   // $: schema, console.log(JSON.stringify(schema, null, 2))
 

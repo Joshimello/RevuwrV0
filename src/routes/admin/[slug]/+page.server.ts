@@ -31,6 +31,7 @@ export const actions = {
   delete: async ({ locals, request, params }) => {
     try {
       await locals.pb.collection('applications').delete(params.slug)
+      await locals.adminpb.collections.delete(params.slug)
     }
     catch (err) {
       return fail(400, { success: false })

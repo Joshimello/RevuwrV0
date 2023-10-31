@@ -37,6 +37,16 @@ export const handle = sequence(Sentry.sentryHandle(), async ({ event, resolve })
     throw redirect(302, '/')
   }
 
+  if(event.locals.user && event.locals.user.admin == true && event.url.pathname.startsWith('/admin')) {
+    try {
+      event.locals.adminpb = new PocketBase(PB_URL)    
+      await event.locals.adminpb.admins.authWithPassword(PB_USER, PB_PASS);
+    }
+    catch (_) {
+      event.locals.adminpb = undefined
+    }
+  }
+
   const response = await resolve(event);
 
   response.headers.append('set-cookie', event.locals.pb.authStore.exportToCookie({ secure: false }));
