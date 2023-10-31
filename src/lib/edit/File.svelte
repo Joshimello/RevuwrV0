@@ -3,16 +3,17 @@
   import Editor from '$lib/Editor.svelte'
 
   const fileTypes = [
-    { id: 0, text: "PNG" },
-    { id: 1, text: "JPG" },
-    { id: 2, text: "PDF" }
+    { id: "PNG", text: "PNG" },
+    { id: "JPG", text: "JPG" },
+    { id: "PDF", text: "PDF" }
   ]
 
-  let limitTypes = []
-  $:{ value.limitTypes = limitTypes.map(i => fileTypes[i].text) }
-
   export let value
-  value.limitCount = 1
+
+  if(!value.limitCount){
+    value.limitCount = 1
+  }
+
 </script>
 
 <div class="w-full">
@@ -32,16 +33,12 @@
       <C.MultiSelect
         light
         size="sm"
-        bind:selectedIds={limitTypes}
-        label={limitTypes.length ?
-          limitTypes.map(i => fileTypes[i].text).join(', ') :
+        bind:selectedIds={value.limitTypes}
+        label={value.limitTypes?.length ?
+          value.limitTypes.join(', ') :
           'Select file types...'
         }
-        items={[
-          { id: "0", text: "PNG" },
-          { id: "1", text: "JPG" },
-          { id: "2", text: "PDF" }
-        ]}
+        items={fileTypes}
         sortItem={() => {}}
       />
       {/if}

@@ -7,7 +7,9 @@
 
   export let value
 
-  value.selections = ['']
+  if(!value.selections) {    
+    value.selections = ['']
+  }
 </script>
 
 <div class="w-full">

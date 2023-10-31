@@ -12,7 +12,24 @@
 
   export let value
 
-  value.table = [[{type: 'text', value: 'Katsudon'}, {type: 'input', value: ''}, {type: 'formula', value: '=B1 * 90'}], [{type: 'text', value: 'Matcha'}, {type: 'input', value: ''}, {type: 'formula', value: '=B2 * 30'}], [{type: 'text', value: 'Total'}, {type: 'text', value: ''}, {type: 'formula', value: '=SUM(C1:C2)'}]]
+  if (!value.table) {
+    value.table = [
+      [
+        {type: 'text', value: 'Katsudon'}, 
+        {type: 'input', value: ''}, 
+        {type: 'formula', value: '=B1 * 90'}
+      ], [
+        {type: 'text', value: 'Matcha'},
+        {type: 'input', value: ''},
+        {type: 'formula', value: '=B2 * 30'}
+      ], [
+        {type: 'text', value: 'Total'}, 
+        {type: 'text', value: ''}, 
+        {type: 'formula', value: '=SUM(C1:C2)'}
+      ]
+    ]
+  }
+
 </script>
 
 <div class="w-full">
