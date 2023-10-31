@@ -30,7 +30,7 @@ export const handle = sequence(Sentry.sentryHandle(), async ({ event, resolve })
   }
 
   if(!event.locals.user && event.url.pathname != '/auth' && event.url.pathname != '/') {
-    throw redirect(307, '/auth')
+    throw redirect(307, '/auth?r='+event.url.pathname)
   }
 
   if(event.locals.user && event.locals.user.admin == false && event.url.pathname.startsWith('/admin')) {
