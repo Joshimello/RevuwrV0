@@ -6,8 +6,6 @@ export const actions = {
     const user = data.get('user')
     const pass = data.get('pass')
 
-    console.log(url.searchParams.get('r'))
-
     try {
       await locals.pb.collection('users').authWithPassword(user, pass)
       throw redirect(302, '')
