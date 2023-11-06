@@ -22,7 +22,7 @@
 
     {#each records as { name, id }}
     <C.SideNavMenu icon={DataTable} text={name}>
-      <C.SideNavMenuItem text="Edit details" on:click={() => goto('/admin/'+id)}/>
+      <C.SideNavMenuItem href={'/admin/'+id} text="Edit details"/>
       <C.SideNavMenuItem href={'/admin/'+id+'/questions'} text="Edit questions" />
       <C.SideNavMenuItem href={'/admin/'+id+'/responses'} text="Responses"/>
     </C.SideNavMenu>

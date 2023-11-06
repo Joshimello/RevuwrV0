@@ -1,5 +1,6 @@
 <script lang="ts">
   import Editor from '@tinymce/tinymce-svelte'
+
   export let value: string = ''
   export let placeholder: string = ''
 </script>
@@ -23,7 +24,7 @@
     toolbar_location: 'bottom',
     content_style: "body { font-size: 14px }",
     statusbar: false,
-      plugins: [
+    plugins: [
       "autoresize",
       "autolink",
       "lists",
@@ -60,6 +61,6 @@
         reader.readAsDataURL(file);
       });
       input.click();
-    },
+    }
   }}
 />

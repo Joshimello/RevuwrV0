@@ -1,4 +1,5 @@
 import { redirect, fail } from '@sveltejs/kit';
+import { sanitize } from "isomorphic-dompurify";
 
 export const actions = {
   update: async ({ locals, request, params }) => {
@@ -14,7 +15,7 @@ export const actions = {
     try {
       record = await locals.pb.collection('applications').update(params.slug, {
         name: name,
-        description: description,
+        description: sanitize(description),
         start: new Date(start),
         end: new Date(end+' '+endtime)
       })

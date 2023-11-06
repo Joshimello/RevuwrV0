@@ -1,5 +1,7 @@
 <script>
+  import { onMount } from 'svelte'
   import * as C from 'carbon-components-svelte';
+  import Editor from '$lib/Editor.svelte'
 
   export let data, form
   $: ({ name, description, start, end } = data)
@@ -11,6 +13,13 @@
     const minutes = String(d.getMinutes()).padStart(2, '0');
     return `${hours}:${minutes}`;
   }
+
+  let newDescription = ''
+  onMount(() => {
+    if(description){
+      newDescription = description
+    }
+  })
 </script>
 
 <div class="flex flex-col gap-4">
@@ -24,10 +33,14 @@
 
   <C.Form class="flex flex-col gap-4" method="post" action="?/update">
     <C.TextInput value={name} labelText="Application name" name="name" required/>
-    <C.TextArea value={description} labelText="Application description" placeholder="Application description..." name="description"/>
+    <div class="border-b-1 border-solid border-gray-400 flex flex-col gap-2">
+      <span class="text-xs text-gray-600">Application description</span>
+      <Editor placeholder="Application description..." bind:value={newDescription} />
+      <input class="hidden" bind:value={newDescription} name="description" />
+    </div>
     <C.DatePicker valueFrom={start} valueTo={end} datePickerType="range" on:change>
-      <C.DatePickerInput labelText="Start date" placeholder="mm/dd/yyyy" name="start" required/>
-      <C.DatePickerInput labelText="End date" placeholder="mm/dd/yyyy" name="end" required/>
+      <C.DatePickerInput labelText="Start date" placeholder="mm/dd/yyyy" name="start"/>
+      <C.DatePickerInput labelText="End date" placeholder="mm/dd/yyyy" name="end"/>
       <C.TimePicker value={formatTime(end)} labelText="End time" placeholder="hh:mm" name="endtime" />
     </C.DatePicker>
     <C.Button type="submit">Update</C.Button>
