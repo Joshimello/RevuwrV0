@@ -7,4 +7,4 @@
 
 <slot />
 
-<C.Theme theme="g10" />
+<C.Theme theme="white" />
