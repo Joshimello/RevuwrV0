@@ -34,9 +34,9 @@ export const actions = {
         type: 'base',
         schema: [
           { name: 'responder', type: 'text' }
-        ]
-        listRule: '@request.auth.id != ""'
-        viewRule: '@request.auth.id != ""'
+        ],
+        listRule: '@request.auth.id != ""',
+        viewRule: '@request.auth.id != ""',
         createRule: '@request.auth.id != ""',
         updateRule: '@request.auth.id != "" && (responder = @request.auth.id || @request.auth.admin = true)',
         deleteRule: '@request.auth.id != "" && (responder = @request.auth.id || @request.auth.admin = true)',
