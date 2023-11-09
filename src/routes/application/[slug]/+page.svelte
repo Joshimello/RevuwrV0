@@ -18,17 +18,26 @@
     'Table': Table,
   }
 
-  export let data
+  export let data, form
   $: ({ username, email, admin, record } = data)
   $: ({ name, description, questions } = record)
 
   let response = {}
-  $: response, console.log(JSON.stringify(response, null, 1))
+  // $: response, console.log(JSON.stringify(response, null, 1))
   // $: response, console.log(response)
 
 </script>
 
 <C.Content>
+  {#if form}
+  <C.InlineNotification title={form.status}>
+    <svelte:fragment slot="actions">
+      <C.NotificationActionButton href="mailto:joshualeanjw@gmail.com" target="_blank">
+        Contact admin
+      </C.NotificationActionButton>
+    </svelte:fragment>
+  </C.InlineNotification>
+  {/if}
   <h1>{name}</h1>
   <div>{@html description}</div>
   <div class="flex flex-col gap-8 pt-16">
@@ -37,4 +46,8 @@
     <hr>
     {/each}
   </div>
+  <form action="" method="POST" class="flex flex-col py-8">
+    <input value={JSON.stringify(response)} class="hidden" name="response" />
+    <C.Button class="w-full" type="submit">Submit</C.Button>
+  </form>
 </C.Content>

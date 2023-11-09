@@ -33,8 +33,13 @@ export const actions = {
         name: record.id,
         type: 'base',
         schema: [
-          { name: 'uwu', type: 'bool' }
+          { name: 'responder', type: 'text' }
         ]
+        listRule: '@request.auth.id != ""'
+        viewRule: '@request.auth.id != ""'
+        createRule: '@request.auth.id != ""',
+        updateRule: '@request.auth.id != "" && (responder = @request.auth.id || @request.auth.admin = true)',
+        deleteRule: '@request.auth.id != "" && (responder = @request.auth.id || @request.auth.admin = true)',
       })
     }
     catch (err) {

@@ -68,14 +68,11 @@ export const actions = {
         }
       })
 
-      if(!schema.length) {
-        dbschema = [
-          { name: 'uwu', type: 'bool' }
-        ]
-      }
-
       base = await locals.adminpb.collections.update(params.slug, {
-        schema: dbschema
+        schema: [
+          { name: 'responder', type: 'text' },
+          ...dbschema
+        ]
       })
     }
     catch (err) {
