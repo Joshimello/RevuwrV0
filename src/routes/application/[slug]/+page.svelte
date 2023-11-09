@@ -2,6 +2,22 @@
   import * as C from "carbon-components-svelte";
   import { onMount } from 'svelte'
 
+  import ShortText from '$lib/form/ShortText.svelte'
+  import LongText from '$lib/form/LongText.svelte'
+  import Radio from '$lib/form/Radio.svelte'
+  import Checkbox from '$lib/form/Checkbox.svelte'
+  import File from '$lib/form/File.svelte'
+  import Table from '$lib/form/Table.svelte'
+
+  const questionTypes = {
+    'ShortText': ShortText,
+    'LongText': LongText,
+    'Radio': Radio,
+    'Checkbox': Checkbox,
+    'File': File,
+    'Table': Table,
+  }
+
   export let data
   $: ({ username, email, admin, record } = data)
   $: ({ name, description, questions } = record)
@@ -10,7 +26,9 @@
     console.log(questions)
   })
 
-  const response = {}
+  let response = {}
+  $: response, console.log(JSON.stringify(response, null, 1))
+  // $: response, console.log(response)
 
 </script>
 
@@ -19,51 +37,7 @@
   <div>{@html description}</div>
   <C.Form action="" method="POST" class="flex flex-col gap-8 pt-16 max-w-xl">
     {#each questions as { type, details }, idx}
-      {#if type == 'ShortText'}
-      <div class="grid grid-cols-4 gap-x-8 gap-y-2">
-        <span class="col-span-1 text-right pt-3">{details.title}</span>
-        <div class="col-span-3"><C.TextInput bind:value={response[idx]} /></div>
-        {#if details.isDescription}
-        <div class="col-span-3 col-start-2">{@html details.description}</div>
-        {/if}
-      </div>
-      {:else if type == 'LongText'}
-      <div class="grid grid-cols-4 items-top gap-x-8 gap-y-2">
-        <span class="text-right pt-3">{details.title}</span>
-        <div class="col-span-3"><C.TextArea bind:value={response[idx]} /></div>
-        {#if details.isDescription}
-        <div class="col-span-3 col-start-2">{@html details.description}</div>
-        {/if}
-      </div>
-      {:else if type == 'Radio'}
-      <div class="grid grid-cols-4 items-top gap-x-8 gap-y-2">
-        <span class="text-right pt-3">{details.title}</span>
-        <div class="col-span-3">
-          <C.TileGroup bind:selected={response[idx]}>
-            {#each details.selections as sel}
-            <C.RadioTile value={sel}>{sel}</C.RadioTile>
-            {/each}
-          </C.TileGroup>
-        </div>
-        {#if details.isDescription}
-        <div class="col-span-3 col-start-2">{@html details.description}</div>
-        {/if}
-      </div>
-      {:else if type == 'Checkbox'}
-      <div class="grid grid-cols-4 items-top gap-x-8 gap-y-2">
-        <span class="text-right pt-3">{details.title}</span>
-        <div class="col-span-3">
-          <div>
-            {#each details.selections as sel}
-            <C.SelectableTile>{sel}</C.SelectableTile>
-            {/each}
-          </div>
-        </div>
-        {#if details.isDescription}
-        <div class="col-span-3 col-start-2">{@html details.description}</div>
-        {/if}
-      </div>
-      {/if}
+    <svelte:component this={questionTypes[type]} {details} bind:value={response[idx]} />
     {/each}
   </C.Form>
 </C.Content>
