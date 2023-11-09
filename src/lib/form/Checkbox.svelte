@@ -6,9 +6,14 @@
   $: value = details.selections.filter((_, i) => selectedOptions[i])
 </script>
 
-<div class="grid grid-cols-4 items-top gap-x-8 gap-y-2">
-  <span class="text-right pt-3">{details.title}</span>
-  <div class="col-span-3">
+<div class="grid grid-cols-3 gap-x-16">
+  <div class="col-span-1 flex flex-col">
+    <span class="text-2xl">{details.title}</span>    
+    {#if details.isDescription}
+    <div class="reset">{@html details.description}</div>
+    {/if}
+  </div>
+  <div class="col-span-2 flex flex-col gap-2">
     <div>
       {#each details.selections as sel, idx}
       <C.SelectableTile
@@ -16,8 +21,8 @@
       >{sel}</C.SelectableTile>
       {/each}
     </div>
+    {#if details.required}
+    <span class="text-right">*Required</span>
+    {/if}
   </div>
-  {#if details.isDescription}
-  <div class="col-span-3 col-start-2">{@html details.description}</div>
-  {/if}
 </div>

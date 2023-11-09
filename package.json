@@ -17,6 +17,7 @@
 		"@tinymce/tinymce-svelte": "^1.0.1",
 		"@windicss/plugin-scrollbar": "^1.2.3",
 		"carbon-icons-svelte": "^12.3.0",
+		"hyperformula": "^2.6.0",
 		"pocketbase": "^0.18.0",
 		"prettier": "^2.8.0",
 		"prettier-plugin-svelte": "^2.10.1",

@@ -22,10 +22,6 @@
   $: ({ username, email, admin, record } = data)
   $: ({ name, description, questions } = record)
 
-  onMount(() => {
-    console.log(questions)
-  })
-
   let response = {}
   $: response, console.log(JSON.stringify(response, null, 1))
   // $: response, console.log(response)
@@ -35,21 +31,10 @@
 <C.Content>
   <h1>{name}</h1>
   <div>{@html description}</div>
-  <C.Form action="" method="POST" class="flex flex-col gap-8 pt-16 max-w-xl">
+  <div class="flex flex-col gap-8 pt-16">
     {#each questions as { type, details }, idx}
     <svelte:component this={questionTypes[type]} {details} bind:value={response[idx]} />
+    <hr>
     {/each}
-  </C.Form>
+  </div>
 </C.Content>
-
-<!-- <div class="flex p-8">
-  <div class="flex flex-col gap-4 w-5/13">
-    <h1>{name}</h1>
-    <div>{@html description}</div>
-  </div>
-  <div class="flex flex-col gap-4 w-8/13">
-    {#each questions as question}
-    <svelte:component this={questionTypes[question.type]} details={question.details} />
-    {/each}
-  </div>
-</div> -->

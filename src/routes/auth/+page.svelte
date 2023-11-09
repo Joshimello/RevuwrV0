@@ -11,7 +11,7 @@
   >
     {#if form}
     <C.InlineNotification
-      title="Incorrect credentials"
+      title={form?.status}
     />
     {/if}
     <C.TextInput

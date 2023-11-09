@@ -1,3 +1,13 @@
 .bx--file-browse-btn, .bx--file__selected-file {
   max-width: none;
 }
+
+.reset {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.reset th, .reset td {
+  border: 1px solid #e2e8f0;
+  padding: 8px;
+}
