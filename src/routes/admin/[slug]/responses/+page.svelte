@@ -17,18 +17,17 @@
 <div class="flex flex-col gap-8">
   <h2>Viewing {name} responses</h2>
 
-  <C.DataTable batchSelection bind:selectedRowIds headers={headers} rows={collection}>
+  <C.DataTable batchSelection bind:selectedRowIds headers={headers} rows={collection} sortable>
     <C.Toolbar>
       <C.ToolbarBatchActions>
         <C.Button>Save</C.Button>
       </C.ToolbarBatchActions>
       <C.ToolbarContent>
-        <C.ToolbarSearch />
+        <C.ToolbarSearch shouldFilterRows />
         <C.ToolbarMenu>
-          <C.ToolbarMenuItem primaryFocus>Restart all</C.ToolbarMenuItem>
-          <C.ToolbarMenuItem hasDivider danger>Stop all</C.ToolbarMenuItem>
+          <C.ToolbarMenuItem primaryFocus></C.ToolbarMenuItem>
+          <C.ToolbarMenuItem hasDivider></C.ToolbarMenuItem>
         </C.ToolbarMenu>
-        <C.Button>Create balancer</C.Button>
       </C.ToolbarContent>
     </C.Toolbar>
     <svelte:fragment slot="cell" let:row let:cell>

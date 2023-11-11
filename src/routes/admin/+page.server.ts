@@ -33,7 +33,8 @@ export const actions = {
         name: record.id,
         type: 'base',
         schema: [
-          { name: 'responder', type: 'text' }
+          { id: 'responder____id', name: 'responder', type: 'text' },
+          { id: 'status_______id', name: 'status', type: 'text' },
         ],
         listRule: '@request.auth.id != ""',
         viewRule: '@request.auth.id != ""',

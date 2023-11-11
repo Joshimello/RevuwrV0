@@ -1,4 +1,5 @@
 import { redirect, fail } from '@sveltejs/kit';
+import { nanoid } from 'nanoid'
 
 export const actions = {
   default: async ({ locals, request, params }) => {
@@ -8,6 +9,9 @@ export const actions = {
     let record, base
 
     try {
+      schema.forEach(i => {
+        i.id = i.id || nanoid(15)
+      })
       record = await locals.pb.collection('applications').update(params.slug, {
         questions: schema
       })
@@ -20,18 +24,21 @@ export const actions = {
       let dbschema = schema.map((i, idx) => {
         if(i.type == 'ShortText'){
           return {
+            id: i.id,
             name: ''+idx,
             type: 'text',
           }
         }
         else if(i.type == 'LongText'){
           return {
+            id: i.id,
             name: ''+idx,
             type: 'editor',
           }
         }
         else if(i.type == 'Radio'){
           return {
+            id: i.id,
             name: ''+idx,
             type: 'select',
             options: {
@@ -42,6 +49,7 @@ export const actions = {
         }
         else if(i.type == 'Checkbox'){
           return {
+            id: i.id,
             name: ''+idx,
             type: 'select',
             options: {
@@ -52,6 +60,7 @@ export const actions = {
         }
         else if(i.type == 'File'){
           return {
+            id: i.id,
             name: ''+idx,
             type: 'file',
             options: {                                                                                                   
@@ -62,6 +71,7 @@ export const actions = {
         }
         else if(i.type == 'Table'){
           return {
+            id: i.id,
             name: ''+idx,
             type: 'json',
           }
@@ -70,10 +80,13 @@ export const actions = {
 
       base = await locals.adminpb.collections.update(params.slug, {
         schema: [
-          { name: 'responder', type: 'text' },
+          { id: 'responder____id', name: 'responder', type: 'text' },
+          { id: 'status_______id', name: 'status', type: 'text' },
           ...dbschema
         ]
       })
+
+      console.log(base)
     }
     catch (err) {
       return fail(400, { success: false })
