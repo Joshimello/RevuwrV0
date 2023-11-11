@@ -85,8 +85,6 @@ export const actions = {
           ...dbschema
         ]
       })
-
-      console.log(base)
     }
     catch (err) {
       return fail(400, { success: false })

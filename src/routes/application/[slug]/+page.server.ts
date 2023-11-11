@@ -24,7 +24,7 @@ export const actions = {
     }
     catch (err) {
       if(err?.status == 302){
-        throw redirect(302, '/dashboard')
+        throw redirect(302, '/application/'+params.slug+'/success')
       }
       return fail(400, { status: 'Failed to submit response' });
     }
