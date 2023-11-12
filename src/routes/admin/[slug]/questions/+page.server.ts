@@ -80,6 +80,7 @@ export const actions = {
 
       base = await locals.adminpb.collections.update(params.slug, {
         schema: [
+          { id: 'serial_______id', name: 'serial', type: 'text' },
           { id: 'responder____id', name: 'responder', type: 'text' },
           { id: 'status_______id', name: 'status', type: 'text' },
           ...dbschema

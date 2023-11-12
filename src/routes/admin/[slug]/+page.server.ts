@@ -8,6 +8,7 @@ export const actions = {
     const start = data.get('start')
     const end = data.get('end')
     const endtime = data.get('endtime')
+    const idprefix = data.get('idprefix')
 
     let record
 
@@ -16,7 +17,8 @@ export const actions = {
         name: name,
         description: description,
         start: new Date(start),
-        end: new Date(end+' '+endtime)
+        end: new Date(end+' '+endtime),
+        idprefix: idprefix
       })
     }
     catch (err) {

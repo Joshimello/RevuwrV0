@@ -33,6 +33,7 @@ export const actions = {
         name: record.id,
         type: 'base',
         schema: [
+          { id: 'serial_______id', name: 'serial', type: 'text' },
           { id: 'responder____id', name: 'responder', type: 'text' },
           { id: 'status_______id', name: 'status', type: 'text' },
         ],

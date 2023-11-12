@@ -18,6 +18,16 @@ export const actions = {
     data.append('responder', locals.user.id)
 
     try {
+      let record = await locals.pb.collection('applications').update(params.slug, {
+        'idcount+': '1'
+      })
+      data.append('serial', record.idcount)
+    }
+    catch (err) {
+      return fail(400, { status: 'Failed to submit response' });
+    }
+
+    try {
       await locals.pb.collection(params.slug).create(data)
       throw redirect(302, '')
     }
@@ -25,7 +35,7 @@ export const actions = {
       if(err?.status == 302){
         throw redirect(302, '/application/'+params.slug+'/success')
       }
-      console.log(err)
+      // console.log(err)
       return fail(400, { status: 'Failed to submit response' });
     }
 

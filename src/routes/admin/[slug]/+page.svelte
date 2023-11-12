@@ -4,7 +4,7 @@
   import Editor from '$lib/Editor.svelte'
 
   export let data, form
-  $: ({ name, description, start, end } = data)
+  $: ({ name, description, start, end, idprefix } = data)
 
   function formatTime(date) {
     if(!date) return ''
@@ -14,10 +14,11 @@
     return `${hours}:${minutes}`;
   }
 
-  let newDescription = ''
+  let newDescription = '', newIdprefix = ''
   onMount(() => {
     if(description){
       newDescription = description
+      newIdprefix = idprefix || ''
     }
   })
 </script>
@@ -32,17 +33,23 @@
   {/if}
 
   <C.Form class="flex flex-col gap-4" method="post" action="?/update">
+    
     <C.TextInput value={name} labelText="Application name" name="name" required/>
+    
     <div class="border-b-1 border-solid border-gray-400 flex flex-col gap-2">
       <span class="text-xs text-gray-600">Application description</span>
       <Editor placeholder="Application description..." bind:value={newDescription} />
       <input class="hidden" bind:value={newDescription} name="description" />
     </div>
+    
     <C.DatePicker valueFrom={start} valueTo={end} datePickerType="range" on:change>
       <C.DatePickerInput labelText="Start date" placeholder="mm/dd/yyyy" name="start"/>
       <C.DatePickerInput labelText="End date" placeholder="mm/dd/yyyy" name="end"/>
       <C.TimePicker value={formatTime(end)} labelText="End time" placeholder="hh:mm" name="endtime" />
     </C.DatePicker>
+
+    <C.TextInput bind:value={newIdprefix} labelText="Serial ID" name="idprefix" helperText={'example: '+newIdprefix+'042'} />
+
     <C.Button type="submit">Update</C.Button>
   </C.Form>
 

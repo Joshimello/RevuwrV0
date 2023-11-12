@@ -47,8 +47,4 @@
     {/each}
     <C.Button class="w-full" type="submit">Submit</C.Button>
   </form>
-<!--   <form action="" method="POST" class="flex flex-col py-8">
-    <input value={JSON.stringify(response)} class="hidden" name="response" />
-    <C.Button class="w-full" type="submit">Submit</C.Button>
-  </form> -->
 </C.Content>
