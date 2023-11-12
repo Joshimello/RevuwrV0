@@ -1,6 +1,6 @@
 <script>
   import * as C from "carbon-components-svelte";
-  export let details, value = ''
+  export let details, value = '', name
 </script>
 
 <div class="grid grid-cols-3 gap-x-16">
@@ -11,7 +11,7 @@
     {/if}
   </div>
   <div class="col-span-2 flex flex-col gap-2">
-    <C.TileGroup bind:selected={value}>
+    <C.TileGroup bind:selected={value} name={name}>
       {#each details.selections as sel}
       <C.RadioTile value={sel}>{sel}</C.RadioTile>
       {/each}

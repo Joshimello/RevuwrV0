@@ -2,6 +2,10 @@
   max-width: none;
 }
 
+.bx--tab-content {
+  padding: 0;
+}
+
 .reset {
   border-collapse: collapse;
   width: 100%;

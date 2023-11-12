@@ -1,7 +1,7 @@
 <script>
   import { HyperFormula } from 'hyperformula';
   import * as C from "carbon-components-svelte";
-  export let details, value
+  export let details, value, name
 
   let table = details.table.map(i => i.map(j => j.type != 'formula' ? j.value : ''))
   let tableValues = details.table.map(i => i.map(j => j.value))
@@ -16,6 +16,7 @@
 
 </script>
 
+<input name={name} value={JSON.stringify(value)} class="hidden" />
 <div class="grid grid-cols-3 gap-x-16">
   <div class="col-span-1 flex flex-col">
     <span class="text-2xl">{details.title}</span>    

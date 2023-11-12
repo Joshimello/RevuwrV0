@@ -40,14 +40,15 @@
   {/if}
   <h1>{name}</h1>
   <div>{@html description}</div>
-  <div class="flex flex-col gap-8 pt-16">
+  <form action="" method="POST" enctype="multipart/form-data" class="flex flex-col gap-8 pt-16">
     {#each questions as { type, details }, idx}
-    <svelte:component this={questionTypes[type]} {details} bind:value={response[idx]} />
+    <svelte:component this={questionTypes[type]} {details} bind:value={response[idx]} name={idx} />
     <hr>
     {/each}
-  </div>
-  <form action="" method="POST" class="flex flex-col py-8">
-    <input value={JSON.stringify(response)} class="hidden" name="response" />
     <C.Button class="w-full" type="submit">Submit</C.Button>
   </form>
+<!--   <form action="" method="POST" class="flex flex-col py-8">
+    <input value={JSON.stringify(response)} class="hidden" name="response" />
+    <C.Button class="w-full" type="submit">Submit</C.Button>
+  </form> -->
 </C.Content>

@@ -15,17 +15,17 @@ export const load = async ({ locals, params }) => {
 export const actions = {
   default: async ({ locals, request, params }) => {
     const data = await request.formData();
-    const response = JSON.parse(data.get('response'))
+    data.append('responder', locals.user.id)
 
     try {
-      response.responder = locals.user.id
-      await locals.pb.collection(params.slug).create(response)
+      await locals.pb.collection(params.slug).create(data)
       throw redirect(302, '')
     }
     catch (err) {
       if(err?.status == 302){
         throw redirect(302, '/application/'+params.slug+'/success')
       }
+      console.log(err)
       return fail(400, { status: 'Failed to submit response' });
     }
 

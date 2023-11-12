@@ -1,11 +1,14 @@
 <script>
   import * as C from "carbon-components-svelte";
-  export let details, value
+  export let details, value, name
 
   let selectedOptions = details.selections.map(() => false)
   $: value = details.selections.filter((_, i) => selectedOptions[i])
 </script>
 
+{#each value as v}
+<input name={name} value={v} class="hidden" />
+{/each}
 <div class="grid grid-cols-3 gap-x-16">
   <div class="col-span-1 flex flex-col">
     <span class="text-2xl">{details.title}</span>    

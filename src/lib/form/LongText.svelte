@@ -1,6 +1,6 @@
 <script>
   import * as C from "carbon-components-svelte";
-  export let details, value
+  export let details, value, name
 </script>
 
 <div class="grid grid-cols-3 gap-x-16">
@@ -11,7 +11,7 @@
     {/if}
   </div>
   <div class="col-span-2 flex flex-col gap-2">
-    <div><C.TextArea bind:value /></div>
+    <div><C.TextArea bind:value name={name} /></div>
     {#if details.required}
     <span class="text-right">*Required</span>
     {/if}

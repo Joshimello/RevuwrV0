@@ -1,6 +1,6 @@
 <script>
   import * as C from "carbon-components-svelte";
-  export let details, value = []
+  export let details, value = [], name
   let typeError = [], countError = []
 </script>
 
@@ -13,6 +13,7 @@
   </div>
   <div class="col-span-2 flex flex-col gap-2">
     <C.FileUploaderDropContainer
+      name={name}
       class="w-full"
       bind:files={value}
       accept={details.limitTypes ? details.limitTypes.map(i => '.'+i) : []}
