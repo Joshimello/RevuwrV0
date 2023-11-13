@@ -39,7 +39,7 @@
   </C.InlineNotification>
   {/if}
   <h1>{name}</h1>
-  <div>{@html description}</div>
+  <div class="reset">{@html description}</div>
   <form action="" method="POST" enctype="multipart/form-data" class="flex flex-col gap-8 pt-16">
     {#each questions as { type, details }, idx}
     <svelte:component this={questionTypes[type]} {details} bind:value={response[idx]} name={idx} />

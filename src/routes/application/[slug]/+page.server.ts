@@ -18,7 +18,7 @@ export const actions = {
     data.append('responder', locals.user.id)
 
     try {
-      let record = await locals.pb.collection('applications').update(params.slug, {
+      let record = await locals.adminpb.collection('applications').update(params.slug, {
         'idcount+': '1'
       })
       data.append('serial', record.idcount)

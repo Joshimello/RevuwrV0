@@ -15,3 +15,13 @@
   border: 1px solid #e2e8f0;
   padding: 8px;
 }
+
+.reset li {
+  list-style: initial;
+  font-size: initial;
+  line-height: initial;
+}
+
+.reset ul {
+  padding-left: 32px;
+}

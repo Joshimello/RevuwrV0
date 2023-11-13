@@ -34,10 +34,10 @@ export const handle = sequence(Sentry.sentryHandle(), async ({ event, resolve })
   }
 
   if(event.locals.user && event.locals.user.admin == false && event.url.pathname.startsWith('/admin')) {
-    throw redirect(302, '/')
+    throw redirect(302, '/dashboard')
   }
 
-  if(event.locals.user && event.locals.user.admin == true && event.url.pathname.startsWith('/admin')) {
+  if(event.locals.user) {
     try {
       event.locals.adminpb = new PocketBase(PB_URL)    
       await event.locals.adminpb.admins.authWithPassword(PB_USER, PB_PASS);
