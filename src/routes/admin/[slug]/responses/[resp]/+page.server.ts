@@ -1,14 +1,12 @@
 import { redirect, fail } from '@sveltejs/kit';
 
 export const load = async ({ locals, params }) => {
-  let records
+  let response
   try {
-    records = await locals.pb.collection(params.slug).getFullList({
-      expand: 'responder,status'
-    })    
+    response = await locals.pb.collection(params.slug).getOne(params.resp)    
   }
   catch (err) {
     throw redirect(302, '/admin')
   }
-  return { records }
+  return { response }
 }

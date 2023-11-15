@@ -16,6 +16,7 @@ export const actions = {
   default: async ({ locals, request, params }) => {
     const data = await request.formData();
     data.append('responder', locals.user.id)
+    data.append('status', 'pending______st')
 
     try {
       let record = await locals.adminpb.collection('applications').update(params.slug, {

@@ -34,8 +34,8 @@ export const actions = {
         type: 'base',
         schema: [
           { id: 'serial_______id', name: 'serial', type: 'text' },
-          { id: 'responder____id', name: 'responder', type: 'text' },
-          { id: 'status_______id', name: 'status', type: 'text' },
+          { id: 'responder____id', name: 'responder', type: 'relation', options: { collectionId: '_pb_users_auth_' } },
+          { id: 'status_______id', name: 'status', type: 'relation', options: { collectionId: 'omcr05owwhcmxkn' } },
         ],
         listRule: '@request.auth.id != ""',
         viewRule: '@request.auth.id != ""',
