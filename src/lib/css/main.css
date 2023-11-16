@@ -6,6 +6,14 @@
   padding: 0;
 }
 
+.bx--list-box__menu-item, .bx--list-box__menu-item__option {
+  height: auto;
+}
+
+.bx--list-box--expanded .bx--list-box__menu {
+  max-height: 20rem;
+}
+
 .reset {
   border-collapse: collapse;
   width: 100%;

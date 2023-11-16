@@ -5,7 +5,7 @@ export const load = async ({ locals, params }) => {
   try {
     records = await locals.pb.collection(params.slug).getFullList({
       expand: 'responder,status'
-    })    
+    })
   }
   catch (err) {
     throw redirect(302, '/admin')
