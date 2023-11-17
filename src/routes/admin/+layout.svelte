@@ -1,5 +1,6 @@
 <script>
-  import { goto } from '$app/navigation'
+  import { fade } from 'svelte/transition';
+  import { navigating } from '$app/stores'
   import * as C from 'carbon-components-svelte';
   import Home from "carbon-icons-svelte/lib/Home.svelte";
   import DataTable from "carbon-icons-svelte/lib/DataTable.svelte";
@@ -31,6 +32,13 @@
   </C.SideNavItems>
 </C.SideNav>
 
+
+{#if $navigating}
+<div class="h-100vh w-full flex items-center justify-center bg-[#FCFAFC]" transition:fade={{ duration: 200, delay: 100 }}>
+  <img class="h-50" src="/loader.gif" alt="" />
+</div>
+{:else}
 <C.Content>
   <slot/>
 </C.Content>
+{/if}
