@@ -2,6 +2,10 @@
   import * as C from 'carbon-components-svelte';
   import { goto } from '$app/navigation';
   import { onMount } from 'svelte'
+  import User from "carbon-icons-svelte/lib/User.svelte"
+  import Email from "carbon-icons-svelte/lib/Email.svelte"
+  import DocumentMultiple_01 from "carbon-icons-svelte/lib/DocumentMultiple_01.svelte"
+
 
   const imgUrl = 'https://ctld.pockethost.io/api/files/'
   
@@ -50,9 +54,24 @@
   </div>
 </div>
 
-<div class="flex flex-col gap-4 pt-8">
-  <div class="grid grid-cols-4">
-    <span class="font-bold">{idprefix + response.serial.padStart(3, '0')}</span>
+<div class="flex flex-col gap-4 pt-8 pb-32">
+  <div class="flex gap-4">
+    <span class="font-bold flex items-center gap-2">
+      <DocumentMultiple_01/>
+      {idprefix + response.serial.padStart(3, '0')}
+    </span>
+    <span class="font-bold" style:color={response.expand.status[0].color}>
+      {response.expand.status[0].title}
+    </span>
+  </div>
+  <hr>
+  <div class="flex gap-4">
+    <span class="flex items-center gap-2">
+      <User/>
+      {response.expand.responder[0].name} ({response.expand.responder[0].username})
+      <Email/>
+      {response.expand.responder[0].email}
+    </span>
   </div>
   {#each questions as { type, details: { title } }, idx}
   <hr>
@@ -60,8 +79,8 @@
     {#if selected}
     <div><C.Checkbox bind:checked={selected[idx]} /></div>
     {/if}
-    <div class="w-full grid grid-cols-4 gap-4">
-      <span>{title}</span>
+    <div class="w-full grid grid-cols-4 gap-4 items-center">
+      <span>{idx+1}. {title}</span>
       <div class="col-span-3">
         {#if type == 'Table'}
         <div class="grid gap-2" style:grid-template-columns={'repeat('+response[idx][0].length+', minmax(0, 1fr))'}>
@@ -92,13 +111,12 @@
   {/each}
 </div>
 
-{#if selectedIdx?.length}
-<div class="pt-16">
-  <C.Button kind="secondary">Return {selectedIdx?.join(', ')} for review</C.Button>
-</div>
-{/if}
+  
 
-<div class="flex gap-4 pt-16 pb-48">
+<div class="fixed bottom-8 right-8 flex gap-4 bg-white">
+  {#if selectedIdx?.length}
+  <C.Button kind="secondary">Return {selectedIdx?.map(i => i+1).join(', ')} for review</C.Button>
+  {/if}
   <C.Button kind="tertiary">Approve</C.Button>
   <C.Button kind="danger-tertiary">Reject</C.Button>
 </div>

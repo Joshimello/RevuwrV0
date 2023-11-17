@@ -3,7 +3,9 @@ import { redirect, fail } from '@sveltejs/kit';
 export const load = async ({ locals, params }) => {
   let response, records
   try {
-    response = await locals.pb.collection(params.slug).getOne(params.resp) 
+    response = await locals.pb.collection(params.slug).getOne(params.resp, {
+      expand: 'status,responder'
+    })
     records = await locals.pb.collection(params.slug).getFullList({
       expand: 'status',
       fields: 'id,serial,expand.status,0'
