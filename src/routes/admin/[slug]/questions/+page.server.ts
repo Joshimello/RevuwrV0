@@ -83,6 +83,7 @@ export const actions = {
           { id: 'serial_______id', name: 'serial', type: 'text' },
           { id: 'responder____id', name: 'responder', type: 'relation', options: { collectionId: '_pb_users_auth_' } },
           { id: 'status_______id', name: 'status', type: 'relation', options: { collectionId: 'omcr05owwhcmxkn' } },
+          { id: 'statusinfo___id', name: 'statusinfo', type: 'json' },
           ...dbschema
         ]
       })

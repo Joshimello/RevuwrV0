@@ -9,7 +9,7 @@
 
   const imgUrl = 'https://ctld.pockethost.io/api/files/'
   
-  export let data
+  export let data, form
   $: ({ questions, response, records, idprefix, id } = data)
 
   let search = ''
@@ -21,6 +21,12 @@
 
   $: selectedIdx = selected?.reduce((a, v, i) => v ? [...a, i] : a, [])
 </script>
+
+{#if form?.success == false}
+  <C.InlineNotification title="Error updating"/>
+{:else if form?.success == true}
+  <C.InlineNotification kind="success" title="Successfully updated"/>
+{/if}
 
 <div class="w-full flex">
   <C.Button size="small" href={'/admin/' + id + '/responses/'}>Return to list</C.Button>
@@ -111,12 +117,17 @@
   {/each}
 </div>
 
-  
-
 <div class="fixed bottom-8 right-8 flex gap-4 bg-white">
   {#if selectedIdx?.length}
-  <C.Button kind="secondary">Return {selectedIdx?.map(i => i+1).join(', ')} for review</C.Button>
+  <form action="?/review" method="POST">
+    <input value={JSON.stringify(selectedIdx)} class="hidden" name="fields">
+    <C.Button type="submit" kind="secondary">Return {selectedIdx?.map(i => i+1).join(', ')} for review</C.Button>
+  </form>
   {/if}
-  <C.Button kind="tertiary">Approve</C.Button>
-  <C.Button kind="danger-tertiary">Reject</C.Button>
+  <form action="?/approve" method="POST">
+    <C.Button type="submit" kind="tertiary">Approve</C.Button>
+  </form>
+  <form action="?/reject" method="POST">
+    <C.Button type="submit" kind="danger-tertiary">Reject</C.Button>
+  </form>
 </div>

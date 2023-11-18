@@ -22,7 +22,7 @@
     </div>
     {#each records as { id: rid, serial, created, expand: { responder, status } }}
     <hr>
-    <div class="w-full flex gap-4">
+    <div class="w-full flex gap-4 py-4">
       <div><C.Checkbox labelText="Select one" hideLabel /></div>
       <div class="w-full grid grid-cols-5 gap-4 items-center">
         <span>{idprefix + serial.padStart(3, '0')}</span>
