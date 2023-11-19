@@ -43,7 +43,6 @@ export const actions = {
       })
     }
     catch (err) {
-      console.log(err)
       await locals.pb.collection('applications').delete(record.id);
       return fail(400, true);
     }

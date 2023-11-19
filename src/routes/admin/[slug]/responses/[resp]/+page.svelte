@@ -10,16 +10,19 @@
   const imgUrl = 'https://ctld.pockethost.io/api/files/'
   
   export let data, form
-  $: ({ questions, response, records, idprefix, id } = data)
+  $: ({ questions, response, records, statuses, idprefix, id } = data)
 
   let search = ''
+  let selectedStatus = ''
   
   let selected
   onMount(() => {
     selected = questions.map(_ => false)
+    selectedStatus = response.expand.status[0].id
   })
 
   $: selectedIdx = selected?.reduce((a, v, i) => v ? [...a, i] : a, [])
+
 </script>
 
 {#if form?.success == false}
@@ -60,27 +63,49 @@
   </div>
 </div>
 
-<div class="flex flex-col gap-4 pt-8 pb-32">
-  <div class="flex gap-4">
-    <span class="font-bold flex items-center gap-2">
+<div class="w-full flex gap-4 mt-8">
+  <C.Tile class="w-full">
+    <div class="flex items-center gap-2">
       <DocumentMultiple_01/>
-      {idprefix + response.serial.padStart(3, '0')}
-    </span>
-    <span class="font-bold" style:color={response.expand.status[0].color}>
-      {response.expand.status[0].title}
-    </span>
-  </div>
-  <hr>
-  <div class="flex gap-4">
-    <span class="flex items-center gap-2">
+      <span>{idprefix + response.serial.padStart(3, '0')}</span>
+    </div>
+    <div class="mt-1">
+      <span class="font-bold text-xl" style:color={response.expand.status[0].color}>
+        {response.expand.status[0].title}
+      </span>
+    </div>
+    <div class="mt-2">
+      <form class="flex" action="?/change" method="POST">
+        <input value={selectedStatus} name="status" class="hidden" />
+        <C.Dropdown
+          size="sm"
+          bind:selectedId={selectedStatus}
+          items={statuses}
+          itemToString={(item) => {
+            return item.title
+          }}
+        />
+        <C.Button size="small" type="submit" disabled={selectedStatus == response.expand.status[0].id}>Change status</C.Button>
+      </form>
+    </div>
+  </C.Tile>
+  <C.Tile class="w-full">
+    <div class="flex items-center gap-2">
       <User/>
-      {response.expand.responder[0].name} ({response.expand.responder[0].username})
+      <span>{response.expand.responder[0].name} ({response.expand.responder[0].username})</span>
+    </div>
+    <div class="flex items-center gap-2 mt-2">
       <Email/>
-      {response.expand.responder[0].email}
-    </span>
-  </div>
+      <span>{response.expand.responder[0].email}</span>
+    </div>
+    <div class="mt-4">
+      <C.Button size="small">Send mail</C.Button>
+    </div>
+  </C.Tile>
+</div>
+
+<div class="flex flex-col gap-4 pt-8 pb-32">
   {#each questions as { type, details: { title } }, idx}
-  <hr>
   <div class="flex w-full items-center gap-2">
     {#if selected}
     <div><C.Checkbox bind:checked={selected[idx]} /></div>
@@ -114,6 +139,7 @@
       </div>
     </div>
   </div>
+  <hr>
   {/each}
 </div>
 

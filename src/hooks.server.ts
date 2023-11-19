@@ -1,8 +1,9 @@
-import { PB_URL, PB_USER, PB_PASS } from '$env/static/private';
+import { PB_URL, PB_USER, PB_PASS, RS_KEY } from '$env/static/private';
 import { sequence } from '@sveltejs/kit/hooks';
 import * as Sentry from '@sentry/sveltekit';
 import { redirect } from '@sveltejs/kit';
 import PocketBase from 'pocketbase';
+import { Resend } from 'resend';
 
 Sentry.init({
   environment: 'development',
@@ -12,6 +13,7 @@ Sentry.init({
 
 export const handle = sequence(Sentry.sentryHandle(), async ({ event, resolve }) => {
 
+  event.locals.rs = new Resend(RS_KEY);
   event.locals.pb = new PocketBase(PB_URL);
   
   const token = event.request.headers.get('cookie')
