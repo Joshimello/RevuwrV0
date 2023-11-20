@@ -16,7 +16,7 @@
     menubar: false,
     min_height: 200,
     height: 200,
-    max_height: 700,
+    max_height: 400,
     resize: true,
     autoresize_bottom_margin: 30,
     skin: 'custom',

@@ -71,7 +71,7 @@
   {/each}
 </div>
 
-<div class="pt-16 pb-4 flex gap-1 w-full justify-left">
+<div class="pt-16 flex gap-1 w-full justify-left">
   {#each Object.entries(questionTypes) as [type, { comp, icon }]}
   <C.Button kind="tertiary" icon={icon} iconDescription={'Add ' + type} on:click={() => {
     schema = [...schema, { type: type, details: {} }]
@@ -79,7 +79,9 @@
   {/each}
 </div>
 
-<C.Form class="flex flex-col" method="post" action="">
-  <input class="hidden" name="schema" value={JSON.stringify(schema)} />
-  <C.Button type="submit">Update</C.Button>
-</C.Form>
+<div class="fixed bottom-8 right-8 flex gap-4 bg-white">
+  <C.Form class="flex flex-col" method="post" action="">
+    <input class="hidden" name="schema" value={JSON.stringify(schema)} />
+    <C.Button type="submit">Update questions</C.Button>
+  </C.Form>
+</div>

@@ -3,23 +3,16 @@ import { redirect, fail } from '@sveltejs/kit';
 export const actions = {
   update: async ({ locals, request, params }) => {
     const data = await request.formData();
-    const name = data.get('name')
-    const description = data.get('description')
+
     const start = data.get('start')
     const end = data.get('end')
-    const endtime = data.get('endtime')
-    const idprefix = data.get('idprefix')
+    if(start) data.set('start', (new Date(start)).toISOString())
+    if(end) data.set('end', (new Date(end)).toISOString())
 
     let record
 
     try {
-      record = await locals.pb.collection('applications').update(params.slug, {
-        name: name,
-        description: description,
-        start: new Date(start),
-        end: new Date(end+' '+endtime),
-        idprefix: idprefix
-      })
+      record = await locals.pb.collection('applications').update(params.slug, data)
     }
     catch (err) {
       return fail(400, { success: false });

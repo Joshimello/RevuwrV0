@@ -71,5 +71,27 @@ export const actions = {
     catch (err) {
       return fail(400, { success: false });
     }
+  },
+  mail: async ({ locals, request, params }) => {
+    const data = await request.formData();
+    const email = data.get('email')
+    const subject = data.get('subject')
+    const content = data.get('content');
+    const replyto = data.get('replyto');
+    const mailas = data.get('mailas')
+
+    try {
+      const mailid = await locals.rs.emails.send({
+        from: mailas,
+        to: email,
+        subject: subject,
+        html: content,
+        reply_to: replyto
+      })
+      return fail(400, { success: true });
+    }
+    catch (err) {
+      return fail(400, { success: false });
+    }
   }
 }

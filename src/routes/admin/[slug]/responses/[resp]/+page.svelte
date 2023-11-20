@@ -6,11 +6,12 @@
   import Email from "carbon-icons-svelte/lib/Email.svelte"
   import DocumentMultiple_01 from "carbon-icons-svelte/lib/DocumentMultiple_01.svelte"
 
+  import Editor from '$lib/Editor.svelte'
 
   const imgUrl = 'https://ctld.pockethost.io/api/files/'
   
   export let data, form
-  $: ({ questions, response, records, statuses, idprefix, id } = data)
+  $: ({ questions, response, records, statuses, idprefix, id, replyto, mailas } = data)
 
   let search = ''
   let selectedStatus = ''
@@ -22,6 +23,9 @@
   })
 
   $: selectedIdx = selected?.reduce((a, v, i) => v ? [...a, i] : a, [])
+
+  let mailopen = false
+  let mailcontent = ''
 
 </script>
 
@@ -99,7 +103,7 @@
       <span>{response.expand.responder[0].email}</span>
     </div>
     <div class="mt-4">
-      <C.Button size="small">Send mail</C.Button>
+      <C.Button size="small" on:click={() => mailopen = true}>Send mail</C.Button>
     </div>
   </C.Tile>
 </div>
@@ -157,3 +161,22 @@
     <C.Button type="submit" kind="danger-tertiary">Reject</C.Button>
   </form>
 </div>
+
+<C.Modal
+  bind:open={mailopen}
+  modalHeading="Sending mail"
+  passiveModal
+>
+  <form action="?/mail" method="POST">
+    <C.TextInput name="email" value={response.expand.responder[0].email} placeholder="Receiver" />
+    <C.TextInput name="subject" placeholder="Subject" />
+    <Editor placeholder="Content" bind:value={mailcontent} />
+    <hr class="border-gray-500">
+    <C.TextInput name="mailas" value={mailas} inline labelText="Will send as:" readonly/>
+    <C.TextInput name="replyto" placeholder="Reply To" value={replyto} inline labelText="Will reply to:" />
+    <div class="flex justify-end pt-4">
+      <input class="hidden" value={mailcontent} name="content" />
+      <C.Button type="submit" kind="primary">Send</C.Button>
+    </div>
+  </form>
+</C.Modal>
