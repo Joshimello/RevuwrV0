@@ -11,6 +11,7 @@
   import CheckboxChecked from "carbon-icons-svelte/lib/CheckboxChecked.svelte";
   import Document from "carbon-icons-svelte/lib/Document.svelte";
   import TableSplit from "carbon-icons-svelte/lib/TableSplit.svelte";
+  import UserMultiple from "carbon-icons-svelte/lib/UserMultiple.svelte";
 
   import ShortText from '$lib/edit/ShortText.svelte'
   import LongText from '$lib/edit/LongText.svelte'
@@ -18,6 +19,7 @@
   import Checkbox from '$lib/edit/Checkbox.svelte'
   import File from '$lib/edit/File.svelte'
   import Table from '$lib/edit/Table.svelte'
+  import Team from '$lib/edit/Team.svelte'
   
   const questionTypes = {
     'ShortText': { comp: ShortText, icon: TextShortParagraph },
@@ -26,6 +28,7 @@
     'Checkbox': { comp: Checkbox, icon: CheckboxChecked },
     'File': { comp: File, icon: Document },
     'Table': { comp: Table, icon: TableSplit },
+    'Team': { comp: Team, icon: UserMultiple }
   }
 
   export let data, form

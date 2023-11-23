@@ -12,7 +12,7 @@
   <C.Tile>
     <div class="flex flex-col pb-4 w-full">
       <C.TextInput light placeholder="Question title..." bind:value={value.title} />
-      <C.TextInput readonly size="s   m" placeholder="Sample short text input" />
+      <C.TextInput readonly size="sm" placeholder="Sample short text input" />
 
       {#if value?.isDescription}
       <Editor placeholder="Question description..." bind:value={value.description} />

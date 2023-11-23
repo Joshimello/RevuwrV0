@@ -76,6 +76,13 @@ export const actions = {
             type: 'json',
           }
         }
+        else if(i.type == 'Team'){
+          return {
+            id: i.id,
+            name: ''+idx,
+            type: 'json',
+          }
+        }
       })
 
       base = await locals.adminpb.collections.update(params.slug, {

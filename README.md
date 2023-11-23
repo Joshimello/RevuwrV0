@@ -1,4 +1,1 @@
 # CTLDSYS
-## Features
-- English
-- Chinese

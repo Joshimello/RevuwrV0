@@ -8,6 +8,7 @@
   import Checkbox from '$lib/form/Checkbox.svelte'
   import File from '$lib/form/File.svelte'
   import Table from '$lib/form/Table.svelte'
+  import Team from '$lib/form/Team.svelte'
 
   const questionTypes = {
     'ShortText': ShortText,
@@ -16,6 +17,7 @@
     'Checkbox': Checkbox,
     'File': File,
     'Table': Table,
+    'Team': Team,
   }
 
   export let data, form
