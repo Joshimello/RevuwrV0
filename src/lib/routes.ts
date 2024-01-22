@@ -25,9 +25,9 @@ export default {
     icon: ListTodo,
     hidden: false
   },
-  'settings': {
-    value: 'settings',
-    label: 'Settings',
+  'account': {
+    value: 'account',
+    label: 'Account',
     icon: Settings,
     hidden: false
   },

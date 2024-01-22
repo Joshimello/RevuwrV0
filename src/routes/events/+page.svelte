@@ -7,7 +7,15 @@
   let list = new Array(3)
 </script>
 
-<div class="container py-6">
+<div class="container py-8">
+
+  <div class="flex flex-col">
+    <span class="text-2xl font-bold tracking-tight">Events</span>
+    <span class="text-muted-foreground">A list of events that you may apply for.</span>    
+  </div>
+
+  <Separator class="my-6" />
+
   <div class="grid lg:grid-cols-2 gap-6">
     {#each list as item}
     <Card.Root>
@@ -20,7 +28,7 @@
         <Card.Description>
           <div class="flex gap-1 items-center">
             <UserSearch size="16" />
-            Students  
+            Students
           </div>
         </Card.Description>
       </Card.Header>
