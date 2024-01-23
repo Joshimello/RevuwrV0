@@ -1,17 +1,14 @@
 <script lang="ts">
-  import { Button } from "$lib/components/ui/button"
 
-  export let data
-  $: ({ user } = data)
 </script>
 
 <span class="text-xl">
-  <button class="underline">
+  <a class="underline" href="/auth/login">
     Login
-  </button>
+  </a>
   or
-  <button class="underline">
+  <a class="underline" href="/auth/create">
     create an account
-  </button>
+  </a>
   to continue.
 </span>

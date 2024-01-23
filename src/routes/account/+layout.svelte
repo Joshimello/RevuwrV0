@@ -7,6 +7,10 @@
   $: ({ user } = data)
 </script>
 
+<svelte:head>
+  <title>Account | CTLD</title> 
+</svelte:head>
+
 <div class="container py-8">
 
   <div class="flex flex-col">

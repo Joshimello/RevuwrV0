@@ -5,16 +5,19 @@
   import * as Select from "$lib/components/ui/select"
   import { Separator } from "$lib/components/ui/separator"
   import { Button } from "$lib/components/ui/button"
+  import { Toaster } from "$lib/components/ui/sonner"
   import { ModeWatcher, toggleMode } from "mode-watcher"
   import { Sun, Moon } from "lucide-svelte"
   import { goto } from "$app/navigation"
   import { page } from '$app/stores'
-  import routes from "$lib/routes"
+  import routes from "./routes"
 
-  $: route = $page.route.id?.split('/')[1] || ''
+  $: route = $page.url.pathname.split(/(?=\/)/)[0]
+  $: selected = routes[route] || routes['empty']
 </script>
 
 <ModeWatcher />
+<Toaster />
 
 <div class="sticky top-0 bg-background">
   <div class="flex items-center gap-2 container py-3">
@@ -23,12 +26,12 @@
       <span class="text-lg font-semibold">CTLD</span>   
     </div>
 
-    <Select.Root selected={routes[route]} onSelectedChange={value => {
+    <Select.Root selected={selected} onSelectedChange={value => {
       goto(value.value)
     }} >
       <Select.Trigger class="w-[180px]">
         <div class="flex items-center gap-2">
-          <svelte:component this={routes[route].icon} size="16" />
+          <svelte:component this={selected.icon} size="16" />
           <Select.Value />
         </div>
       </Select.Trigger>
