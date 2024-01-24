@@ -2,6 +2,10 @@
   import * as AlertDialog from "$lib/components/ui/alert-dialog"
   import * as Tabs from "$lib/components/ui/tabs"
   import { goto } from "$app/navigation"
+  import { page } from '$app/stores'
+  import routes from './routes'
+
+  $: selected = routes[$page.url.pathname] || undefined
 
   export let open = true
 </script>
@@ -12,7 +16,7 @@
 
 <AlertDialog.Root bind:open={open}>
   <AlertDialog.Content>
-    <Tabs.Root value="login" onValueChange={value => {
+    <Tabs.Root value={selected} onValueChange={value => {
         goto('/auth/' + value)
       }}>
       <Tabs.List>

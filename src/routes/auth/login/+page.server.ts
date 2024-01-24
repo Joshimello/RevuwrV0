@@ -7,26 +7,22 @@ export const actions = {
     const password = data.get('password')
 
     if (!username) {
-      return fail(400, { status: 'Username empty' })
+      return fail(400, { type: 'error', message: 'Username empty' })
     }
 
     try {
       await locals.pb.collection('users').authWithPassword(username, password)
-      throw { status: 302 }
+      const returnUrl = url.searchParams.get('r') || '/'      
+      return { type: 'success', message: 'Logged in successfully', redirect: returnUrl }
     }
-
     catch (err) {
       if (err.status == 400) {
-        return fail(400, { status: 'Incorrect credentials' })
+        return fail(400, { type: 'error', message: 'Incorrect credentials' })
       }
       if (err.status == 403) {
-        return fail(400, { status: 'Database issue' })
+        return fail(400, { type: 'error', message: 'Database issue' })
       }
-      if (err.status == 302) {
-        const returnUrl = url.searchParams.get('r') || '/'
-        throw redirect(302, returnUrl)
-      }
-      return fail(400, { status: 'Unknown issue' })
+      return fail(400, { type: 'error', message: 'Unknown issue' })
     }
     
   }

@@ -4,6 +4,7 @@
   import { Button } from "$lib/components/ui/button"
   import { toast } from "svelte-sonner"
   import { onMount } from "svelte"
+  import { goto } from "$app/navigation"
 
   export let form
 
@@ -13,7 +14,15 @@
 
   onMount(async () => {
     if (form) {
-      toast.error(form.status)
+      if (form.type == 'error') {
+        toast.error(form.message)
+      }
+      if (form.type == 'success') {
+        toast.success(form.message)
+      }
+      if (form.redirect) {
+        goto(form.redirect)
+      }
     }
   })
   
@@ -28,16 +37,16 @@
   </span>
 </div>
 
-<form method="POST">          
+<form method="POST" on:submit={onSubmit}>
   <div class="flex flex-col w-full gap-2 pb-3">
     <Label class="font-bold">Email / School ID</Label>
-    <Input name="username" type="text" placeholder="111000888" />
+    <Input name="username" type="text" placeholder="111000888" required />
   </div>
   <div class="flex flex-col w-full gap-2 pb-3">
     <Label class="font-bold">Password</Label>
-    <Input name="password" type="password" />
+    <Input name="password" type="password" required />
   </div>
-  <Button type="submit" class="w-full" on:click={onSubmit}>
+  <Button type="submit" class="w-full">
     Login
   </Button>
 </form>

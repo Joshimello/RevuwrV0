@@ -2,14 +2,14 @@
   import '../app.pcss'
   import '@fontsource-variable/inter'
   
-  import * as Select from "$lib/components/ui/select"
   import { Separator } from "$lib/components/ui/separator"
-  import { Button } from "$lib/components/ui/button"
+  import * as Select from "$lib/components/ui/select"
   import { Toaster } from "$lib/components/ui/sonner"
+  import { Button } from "$lib/components/ui/button"
   import { ModeWatcher, toggleMode } from "mode-watcher"
   import { Sun, Moon } from "lucide-svelte"
   import { goto } from "$app/navigation"
-  import { page } from '$app/stores'
+  import { page } from "$app/stores"
   import routes from "./routes"
 
   $: route = $page.url.pathname.split(/(?=\/)/)[0]

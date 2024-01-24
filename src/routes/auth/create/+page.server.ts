@@ -8,34 +8,39 @@ export const actions = {
     const password = data.get('password')
     const passwordconf = data.get('passwordconf')
 
-    if(passwordconf != password) {
-      return fail(400, { status: 'Password not equal' })
+    if (!email) {
+      return fail(400, { type: 'error', message: 'Email empty' })
     }
 
+    if (!username) {
+      return fail(400, { type: 'error', message: 'Username empty' })
+    }
 
+    if (passwordconf !== password) {
+      return fail(400, { type: 'error', message: 'Password not equal' })
+    }
 
     try {
-      await locals.pb.collection('users').authWithPassword(username, password)
+      const newuser = {
+        username: username,
+        email: email,
+        emailVisibility: true,
+        password: password,
+        passwordConfirm: passwordconf
+      }
+      await locals.pb.collection('users').create(newuser)
+      const returnUrl = url.searchParams.get('r') || '/'
+      return { type: 'success', message: 'Account created successfully', redirect: returnUrl }
     }
-
     catch (err) {
-      console.log(err)
+      if (err.status == 400) {
+        return fail(400, { type: 'error', message: 'Error creating' })
+      }
+      if (err.status == 403) {
+        return fail(400, { type: 'error', message: 'Database issue' })
+      }
+      return fail(400, { type: 'error', message: 'Unknown issue' })
     }
-
-
-    // try {
-    //   await locals.pb.collection('users').authWithPassword(user, pass)
-    //   throw redirect(302, '')
-    // }
-    // catch (err) {
-    //   if(err?.status == 403){
-    //     return fail(400, { status: 'Experiencing server issues' })
-    //   }
-    //   if(err?.status == 302){
-    //     throw redirect(302, url.searchParams.get('r') || '/dashboard')
-    //   }
-    //   return fail(400, { status: 'Incorrect credentials' });
-    // }
 
   }
 };
