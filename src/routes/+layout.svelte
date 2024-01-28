@@ -7,10 +7,14 @@
   import { Toaster } from "$lib/components/ui/sonner"
   import { Button } from "$lib/components/ui/button"
   import { ModeWatcher, toggleMode } from "mode-watcher"
+  import { page, navigating } from "$app/stores"
   import { Sun, Moon } from "lucide-svelte"
+  import { fade } from "svelte/transition"
   import { goto } from "$app/navigation"
-  import { page } from "$app/stores"
   import routes from "./routes"
+
+  export let data
+  $: ({ user } = data)
 
   $: route = $page.url.pathname.split(/(?=\/)/)[0]
   $: selected = routes[route] || routes['empty']
@@ -36,8 +40,8 @@
         </div>
       </Select.Trigger>
       <Select.Content>
-        {#each Object.values(routes) as { value, label, icon, hidden }}
-        {#if !hidden}
+        {#each Object.values(routes) as { value, label, icon, hidden, admin }}
+        {#if !hidden && (!admin || user.admin)}
         <Select.Item value={value} class="flex gap-2 items-center">
           <svelte:component this={icon} size="16" />
           {label}
@@ -56,6 +60,12 @@
   <Separator />
 </div>
 
+{#if $navigating}
+<div class="absolute top-[65px] bottom-0 left-0 right-0 flex items-center justify-center bg-white z-99" transition:fade={{ duration: 100 }}>
+  <img class="h-48" src="/loader.gif" alt="" />
+</div>
+{:else}
 <slot>
   
 </slot>
+{/if}

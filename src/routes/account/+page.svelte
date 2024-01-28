@@ -1,7 +1,5 @@
 <script lang="ts">
   import { page } from "$app/stores"
-
-  $: page, console.log($page)
 </script>
 
 <span class="text-xl">

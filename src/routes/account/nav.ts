@@ -4,6 +4,10 @@ export default [
     href: '/account/profile'
   },
   {
+    title: 'Security',
+    href: '/account/security'
+  },
+  {
     title: 'Notifications',
     href: '/account/notifications'
   }

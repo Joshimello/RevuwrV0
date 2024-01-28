@@ -22,7 +22,7 @@
 
   <div class="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
     <aside class="-mx-4 lg:w-1/5">
-      <Nav items={nav} disabled={user == undefined} />
+      <Nav class="sticky top-[89px]" items={nav} disabled={!user} />
     </aside>
     <div class="flex-1 lg:max-w-2xl">
       <slot />
