@@ -4,7 +4,7 @@
   import { Button } from "$lib/components/ui/button"
   import { toast } from "svelte-sonner"
   import { onMount } from "svelte"
-  import { goto } from "$app/navigation"
+  import { goto, invalidateAll } from "$app/navigation"
 
   export let form
 
@@ -21,7 +21,7 @@
         toast.success(form.message)
       }
       if (form.redirect) {
-        goto(form.redirect)
+        goto(form.redirect, { invalidateAll: true })
       }
     }
   })
