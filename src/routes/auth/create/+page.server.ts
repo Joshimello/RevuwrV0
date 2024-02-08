@@ -39,6 +39,7 @@ export const actions = {
       if (err.status == 403) {
         return fail(400, { type: 'error', message: 'Database issue' })
       }
+      console.log(err)
       return fail(400, { type: 'error', message: 'Unknown issue' })
     }
 

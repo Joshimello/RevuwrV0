@@ -7,7 +7,7 @@
     Login
   </a>
   or
-  <a class="underline" href={'/auth/login?r=' + $page.url.pathname}>
+  <a class="underline" href={'/auth/create?r=' + $page.url.pathname}>
     create an account
   </a>
   to continue.

@@ -37,7 +37,7 @@
           out:receive={{ key: "active-sidebar-tab" }}
         />
       {/if}
-      <div class="relative">
+      <div class="relative truncate">
         <span class="font-bold">
           {item.title}
         </span>

@@ -11,6 +11,7 @@
   import { Sun, Moon } from "lucide-svelte"
   import { fade } from "svelte/transition"
   import { goto } from "$app/navigation"
+  import { browser } from "$app/environment"
   import routes from "./routes"
 
   export let data
@@ -18,6 +19,10 @@
 
   $: route = $page.url.pathname.split(/(?=\/)/)[0]
   $: selected = routes[route] || routes['empty']
+
+  $: if (browser) {
+    console.log($page.data)
+  }
 </script>
 
 <ModeWatcher />
@@ -41,7 +46,7 @@
       </Select.Trigger>
       <Select.Content>
         {#each Object.values(routes) as { value, label, icon, hidden, admin }}
-        {#if !hidden && (!admin || user.admin)}
+        {#if !hidden && (!admin || user?.admin)}
         <Select.Item value={value} class="flex gap-2 items-center">
           <svelte:component this={icon} size="16" />
           {label}

@@ -35,7 +35,7 @@ export const handle = async ({ event, resolve }) => {
 
 
   // resend instance
-  event.locals.rs = new Resend(RS_KEY);
+  // event.locals.rs = new Resend(RS_KEY);
 
 
 
