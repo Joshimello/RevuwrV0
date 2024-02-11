@@ -42,6 +42,7 @@
       </Card.Title>
     </Card.Header>
     <Draglist items={items} let:item let:idx onDrop={data => {
+      selected = null
       items = data
     }}>
       <div class="flex">
