@@ -7,6 +7,7 @@
   import * as Popover from "$lib/components/ui/popover"
   import fieldTypes from "./fieldtypes"
   import { nanoid } from 'nanoid'
+	import { onMount } from "svelte";
   
   type Item = { id: string, type: string; value: Record<string, any> }
   let items: Item[] = []
@@ -14,11 +15,18 @@
 
   $: console.log(JSON.stringify(items, null, 2))
 
+  onMount(() => {
+    for (let i = 0; i < 1; i++){
+      items = [...items, { id: nanoid(8), type: 'Table', value: {} }]
+    }
+    selected = 0
+  })
+
 </script>
 
 <div class="flex gap-4 flex-col md:flex-row">
-  <Card.Root class="md:max-w-[16rem] flex-1 h-full">
-    <Card.Header class="py-3 px-4">
+  <Card.Root class="h-full max-h-[60vh] overflow-x-hidden">
+    <Card.Header class="py-3 px-4 sticky top-0 bg-background">
       <Card.Title class="flex items-center justify-between">
         <span>Content</span>
         <Popover.Root>

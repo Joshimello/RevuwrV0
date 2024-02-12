@@ -25,7 +25,7 @@
       <Table.Root class="mt-8">
         <Table.Header>
           <Table.Row>
-            <Table.Head class="w-[100px]">Name</Table.Head>
+            <Table.Head>Name</Table.Head>
             <Table.Head>Email</Table.Head>
             <Table.Head>Dept</Table.Head>
             <Table.Head class="text-right">ID</Table.Head>
