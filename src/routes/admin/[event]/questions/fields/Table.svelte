@@ -29,7 +29,7 @@
       </div>
       <Editor bind:value={value.description} placeholder="Description (optional)" class="text-sm outline-none" />
 
-      <div class="flex justify-end mt-8">
+      <div class="flex justify-end">
         <Button variant="ghost" size="sm" class="px-1 w-max flex items-center gap-1" on:click={() => {
           value.th = [...value.th, '']
           value.tbody = value.tbody.map(row => [...row, { type: 'input', value: '' }])

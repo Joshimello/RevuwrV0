@@ -7,25 +7,49 @@
   import * as Popover from "$lib/components/ui/popover"
   import fieldTypes from "./fieldtypes"
   import { nanoid } from 'nanoid'
-	import { onMount } from "svelte";
+	import { onMount } from "svelte"
+  import { enhance } from '$app/forms'
+	import { toast } from "svelte-sonner"
+  import { format } from 'timeago.js'
+
+  export let data
+  $: ({ questions, updated_questions } = data.event ?? {})
   
   type Item = { id: string, type: string; value: Record<string, any> }
   let items: Item[] = []
   let selected: number | null = null
-
-  $: console.log(JSON.stringify(items, null, 2))
+  let updatedDate: string | null = null
+  let updatedItems: Item[] = []
 
   onMount(() => {
-    for (let i = 0; i < 1; i++){
-      items = [...items, { id: nanoid(8), type: 'Table', value: {} }]
-    }
-    selected = 0
+    items = JSON.parse(JSON.stringify(questions)) ?? []
+    updatedItems = JSON.parse(JSON.stringify(questions)) ?? []
+    updatedDate = updated_questions ?? null
   })
 
 </script>
 
+<div class="relative mb-4">
+  <form class="md:absolute -top-14 right-0" method="POST" action="" use:enhance={() => {
+    toast.loading('Saving...')
+    return async ({ result }) => {
+      if(result.type == 'success') {
+        updatedDate = result.data?.updated_questions ?? null
+        updatedItems = result.data?.questions ?? []
+        toast.success('Saved')
+      }
+      else if (result.type == 'error') toast.error(result.error.message)
+    }
+  }}>
+    <input type="hidden" name="questions" value={JSON.stringify(items)} />
+    <Button type="submit" class="w-full md:w-auto" disabled={JSON.stringify(items) == JSON.stringify(updatedItems)}>
+      Save changes (saved {updatedDate ? format(updatedDate) : 'never'})
+    </Button>
+  </form>
+</div>
+
 <div class="flex gap-4 flex-col md:flex-row">
-  <Card.Root class="h-full max-h-[60vh] overflow-x-hidden">
+  <Card.Root class="h-full max-h-[60vh] min-w-64 overflow-x-hidden">
     <Card.Header class="py-3 px-4 sticky top-0 bg-background">
       <Card.Title class="flex items-center justify-between">
         <span>Content</span>

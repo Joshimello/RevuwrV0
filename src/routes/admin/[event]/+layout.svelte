@@ -14,7 +14,7 @@
 </script>
 
 <Tabs.Root value={selected} onValueChange={value => {
-  goto('/admin/' + $page.params.event + '/' + value)
+  goto('/admin/' + $page.params.event + '/' + value, { invalidateAll: true })
 }}>
   <Tabs.List>
     <Tabs.Trigger value="settings">Settings</Tabs.Trigger>
