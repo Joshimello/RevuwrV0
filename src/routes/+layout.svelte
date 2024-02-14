@@ -62,7 +62,7 @@
     </Button>
   
   </div>
-  <Separator />
+  <Separator/>
 </div>
 
 {#if $navigating}

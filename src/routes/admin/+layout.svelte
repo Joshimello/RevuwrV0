@@ -3,30 +3,40 @@
   import { Button } from "$lib/components/ui/button"
   import * as Tabs from "$lib/components/ui/tabs"
   import * as Select from "$lib/components/ui/select"
-  
-  import Nav from "$lib/components/Nav.svelte"
-  import nav from "./nav"
+  import { Badge } from "$lib/components/ui/badge"
+	import { ChevronRight } from "lucide-svelte"  
+  import { page } from "$app/stores"
 
   export let data
-  $: ({ user, events } = data)
-  $: eventnav = events ? events.map(event => ({ title: event.name, href: '/admin/' + event.id })) : []
+  $: ({ events } = data)
+  
 </script>
 
 <svelte:head>
   <title>Admin | CTLD</title> 
 </svelte:head>
 
-<div class="container py-8">
+<div class="sticky top-0 bg-background">
+  <div class="container py-4 flex items-center gap-1">
+    <Badge variant="outline">
+      <a class="underline" href="/admin">Admin</a>
+    </Badge>
+    {#if $page.params.event}
+    <ChevronRight size="16" />
+    <Badge variant="outline">
+      {events.find(event => event.id === $page.params.event)?.name}
+    </Badge>
+    {/if}
 
-  <div class="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
-    <aside class="-mx-4 lg:w-1/5">
-      <Nav class="sticky top-[89px]" items={nav} disabled={!user} />
-      <Separator class="m-1"/>
-      <Nav class="sticky top-[89px]" items={eventnav} disabled={!user} />
-    </aside>
-    <div class="flex-1">
-      <slot />
+    <div class="ml-auto px-2">
+      <Separator orientation="vertical" class="h-4" />
     </div>
+    <Badge variant="outline">
+      <a class="underline text-nowrap" href="/admin/settings">Admin settings</a>
+    </Badge>
   </div>
+</div>
 
+<div class="container">
+  <slot/>
 </div>

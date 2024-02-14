@@ -6,16 +6,10 @@ export const actions = {
 
     try {
       const record = await locals.pb.collection('events').create(data)
-      return { type: 'success', message: 'Event created successfully', redirect: '/admin/' + record.id }
+      return { id: record.id }
     }
     catch (err) {
-      if (err.status == 400) {
-        return fail(400, { type: 'error', message: 'Error creating' })
-      }
-      if (err.status == 403) {
-        return fail(400, { type: 'error', message: 'Database issue' })
-      }
-      return fail(400, { type: 'error', message: 'Unknown issue' })
+      return error(500, err?.message || JSON.stringify(err))
     }
   }
 

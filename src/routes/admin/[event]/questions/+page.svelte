@@ -20,6 +20,7 @@
   let selected: number | null = null
   let updatedDate: string | null = null
   let updatedItems: Item[] = []
+  let isSaving: boolean = false
 
   onMount(() => {
     items = JSON.parse(JSON.stringify(questions)) ?? []
@@ -29,9 +30,10 @@
 
 </script>
 
-<div class="relative mb-4">
+<div class="relative">
   <form class="md:absolute -top-14 right-0" method="POST" action="" use:enhance={() => {
     toast.loading('Saving...')
+    isSaving = true
     return async ({ result }) => {
       if(result.type == 'success') {
         updatedDate = result.data?.updated_questions ?? null
@@ -39,10 +41,11 @@
         toast.success('Saved')
       }
       else if (result.type == 'error') toast.error(result.error.message)
+      isSaving = false
     }
   }}>
     <input type="hidden" name="questions" value={JSON.stringify(items)} />
-    <Button type="submit" class="w-full md:w-auto" disabled={JSON.stringify(items) == JSON.stringify(updatedItems)}>
+    <Button type="submit" class="w-full md:w-auto" disabled={(JSON.stringify(items) == JSON.stringify(updatedItems)) || isSaving}>
       Save changes (saved {updatedDate ? format(updatedDate) : 'never'})
     </Button>
   </form>
