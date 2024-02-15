@@ -6,6 +6,7 @@
   import { Badge } from "$lib/components/ui/badge"
 	import { ChevronRight } from "lucide-svelte"  
   import { page } from "$app/stores"
+  import { goto } from "$app/navigation"
 
   export let data
   $: ({ events } = data)
@@ -16,24 +17,49 @@
   <title>Admin | CTLD</title> 
 </svelte:head>
 
-<div class="sticky top-0 bg-background">
-  <div class="container py-4 flex items-center gap-1">
-    <Badge variant="outline">
-      <a class="underline" href="/admin">Admin</a>
-    </Badge>
-    {#if $page.params.event}
-    <ChevronRight size="16" />
-    <Badge variant="outline">
-      {events.find(event => event.id === $page.params.event)?.name}
-    </Badge>
-    {/if}
+<div class="sticky top-[65px] bg-background">
+  <div class="container py-1 grid grid-cols-3">
 
-    <div class="ml-auto px-2">
-      <Separator orientation="vertical" class="h-4" />
+    <div class="flex items-center gap-1">
+      <Badge variant="outline">
+        <a class="underline" href="/admin">Admin</a>
+      </Badge>
+      {#if $page.params.event}
+      <ChevronRight size="16" />
+      <Badge variant="outline" class="text-nowrap">
+        {events.find(event => event.id === $page.params.event)?.name}
+      </Badge>
+      {/if}
     </div>
-    <Badge variant="outline">
-      <a class="underline text-nowrap" href="/admin/settings">Admin settings</a>
-    </Badge>
+
+    <div class="flex items-center justify-center gap-1">
+      {#if $page.params.event}
+      <Button size="sm" variant="ghost" class="underline" on:click={() => {
+        goto('/admin/' + $page.params.event + '/settings', { invalidateAll: true })
+      }}>
+        Settings
+      </Button>
+      <Button size="sm" variant="ghost" class="underline" on:click={() => {
+        goto('/admin/' + $page.params.event + '/questions', { invalidateAll: true })
+      }}>
+        Questions
+      </Button>
+      <Button size="sm" variant="ghost" class="underline" on:click={() => {
+        goto('/admin/' + $page.params.event + '/responses', { invalidateAll: true })
+      }}>
+        Responses
+      </Button>
+      {:else}
+      <Button size="sm" variant="ghost"></Button>
+      {/if}
+    </div>
+
+    <div class="flex items-center gap-1 justify-end">
+      <Badge variant="outline">
+        <a class="underline text-nowrap" href="/admin/settings">Admin settings</a>
+      </Badge>
+    </div> 
+    
   </div>
 </div>
 

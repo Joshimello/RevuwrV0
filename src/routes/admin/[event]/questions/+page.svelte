@@ -31,7 +31,7 @@
 </script>
 
 <div class="relative">
-  <form class="md:absolute -top-14 right-0" method="POST" action="" use:enhance={() => {
+  <form class="md:absolute right-0" method="POST" action="" use:enhance={() => {
     toast.loading('Saving...')
     isSaving = true
     return async ({ result }) => {
