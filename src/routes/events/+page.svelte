@@ -2,9 +2,14 @@
   import * as Card from "$lib/components/ui/card"
   import { Button } from "$lib/components/ui/button"
   import { Separator } from "$lib/components/ui/separator"
-  import { UserSearch } from "lucide-svelte"
+  import { Clock, Flag, UserSearch } from "lucide-svelte"
+  import { format } from "timeago.js"
 
   let list = new Array(3)
+
+  export let data
+  $: ({ events } = data)
+
 </script>
 
 <div class="container py-8">
@@ -17,18 +22,27 @@
   <Separator class="my-6" />
 
   <div class="grid lg:grid-cols-2 gap-6">
-    {#each list as item}
+    {#each events as event}
     <Card.Root>
       <Card.Header>
         <Card.Title>
           <span class="text-2xl">
-            Co-Pilot Learning Circle Program
+            {event.name}
           </span>
         </Card.Title>
-        <Card.Description>
+        <Card.Description class="flex flex-col gap-1">
           <div class="flex gap-1 items-center">
             <UserSearch size="16" />
-            Students
+            {event.settings.eventTarget.charAt(0).toUpperCase() + event.settings.eventTarget.slice(1)}
+          </div>
+          <div class="flex gap-1 items-center">
+            <Clock size="16" />
+            {new Date(event.settings.eventStartDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+            - {new Date(event.settings.eventEndDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+          </div>
+          <div class="flex gap-1 items-center">
+            <Flag size="16" />
+            {new Date() > new Date(event.settings.eventStartDate) ? 'Started' : 'Starting'} {format(event.settings.eventStartDate)}
           </div>
         </Card.Description>
       </Card.Header>
@@ -38,7 +52,7 @@
       <Card.Content>
         <div class="mt-4">
           <p class="">
-            Introduction: Originating from “student study groups”, the focus has shifted from "text-based learning" to primarily encourage students to actively explore. The main ethos is to motivate students to explore knowledge, attitudes, and skills that extend beyond the classroom or delve into interdisciplinary fields.
+            {event.settings.eventDescription}
           </p>
         </div>
       </Card.Content>
