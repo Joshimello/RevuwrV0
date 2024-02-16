@@ -5,20 +5,25 @@
     CalendarDate,
     DateFormatter,
     getLocalTimeZone,
+    parseDate,
     type DateValue
   } from "@internationalized/date";
   import { cn } from "$lib/utils";
   import { Button } from "$lib/components/ui/button";
   import { RangeCalendar } from "$lib/components/ui/range-calendar";
   import * as Popover from "$lib/components/ui/popover";
+  import { onMount } from "svelte";
 
   const df = new DateFormatter("en-US", {
     dateStyle: "medium"
   });
 
   export let value: DateRange | undefined = undefined;
+  export let startValue: DateValue | undefined = undefined;
 
-  let startValue: DateValue | undefined = undefined;
+  export let sValue: Date | undefined;
+  export let eValue: Date | undefined;
+  
 </script>
 
 <div class="grid gap-2">
@@ -55,6 +60,10 @@
         initialFocus
         numberOfMonths={2}
         placeholder={value?.start}
+        onValueChange={value => {
+          sValue = value.start?.toDate(getLocalTimeZone())
+          eValue = value.end?.toDate(getLocalTimeZone())
+        }}
       />
     </Popover.Content>
   </Popover.Root>

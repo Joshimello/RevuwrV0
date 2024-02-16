@@ -2,7 +2,7 @@
   import Draglist from "$lib/components/Draglist.svelte"
   import * as Card from "$lib/components/ui/card"
   import { Button } from "$lib/components/ui/button"
-  import { Plus, MoreVertical, Trash, Copy } from "lucide-svelte"
+  import { Plus, MoreVertical, Trash, Copy, Save } from "lucide-svelte"
   import { Badge } from "$lib/components/ui/badge"
   import * as Popover from "$lib/components/ui/popover"
   import fieldTypes from "./fieldtypes"
@@ -11,6 +11,8 @@
   import { enhance } from '$app/forms'
 	import { toast } from "svelte-sonner"
   import { format } from 'timeago.js'
+  import * as Alert from "$lib/components/ui/alert"
+  import { fly } from 'svelte/transition'
 
   export let data
   $: ({ questions, updated_questions } = data.event ?? {})
@@ -30,26 +32,35 @@
 
 </script>
 
-<div class="relative">
-  <form class="md:absolute right-0" method="POST" action="" use:enhance={() => {
-    toast.loading('Saving...')
-    isSaving = true
-    return async ({ result }) => {
-      if(result.type == 'success') {
-        updatedDate = result.data?.updated_questions ?? null
-        updatedItems = result.data?.questions ?? []
-        toast.success('Saved')
-      }
-      else if (result.type == 'error') toast.error(result.error.message)
-      isSaving = false
-    }
-  }}>
-    <input type="hidden" name="questions" value={JSON.stringify(items)} />
-    <Button type="submit" class="w-full md:w-auto" disabled={(JSON.stringify(items) == JSON.stringify(updatedItems)) || isSaving}>
-      Save changes (saved {updatedDate ? format(updatedDate) : 'never'})
-    </Button>
-  </form>
+{#if JSON.stringify(items) != JSON.stringify(updatedItems)}
+<div transition:fly={{ duration: 200, y: 50 }} class="fixed inset-x-0 mx-auto bottom-4 max-w-md">
+  <Alert.Root>
+    <Save class="h-4 w-4"/>
+    <Alert.Title>Unsaved changes in questions detected!</Alert.Title>
+    <Alert.Description>
+      Last saved {updatedDate ? format(updatedDate) : 'never'}.
+      <form class="mt-3" method="POST" action="" use:enhance={() => {
+        toast.loading('Saving...')
+        isSaving = true
+        return async ({ result }) => {
+          if(result.type == 'success') {
+            updatedDate = result.data?.updated_questions ?? null
+            updatedItems = result.data?.questions ?? []
+            toast.success('Saved')
+          }
+          else if (result.type == 'error') toast.error(result.error.message)
+          isSaving = false
+        }
+      }}>
+        <input type="hidden" name="questions" value={JSON.stringify(items)} />
+        <Button type="submit" class="w-full" disabled={(JSON.stringify(items) == JSON.stringify(updatedItems)) || isSaving}>
+          Save changes
+        </Button>
+      </form>
+    </Alert.Description>
+  </Alert.Root>
 </div>
+{/if}
 
 <div class="flex gap-4 flex-col md:flex-row">
   <Card.Root class="h-full max-h-[60vh] min-w-64 overflow-x-hidden">
@@ -124,4 +135,7 @@
     <svelte:component this={fieldTypes[items[selected].type].component} bind:value={items[selected].value} idx={selected} />
     {/key}
   {/if}
+
 </div>
+
+<div class="h-64"></div>
