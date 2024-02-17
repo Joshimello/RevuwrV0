@@ -4,11 +4,16 @@
   import { Separator } from "$lib/components/ui/separator"
   import { Clock, Flag, UserSearch } from "lucide-svelte"
   import { format } from "timeago.js"
+  import { enhance } from '$app/forms'
+	import { toast } from "svelte-sonner"
+  import { goto } from '$app/navigation'
 
   let list = new Array(3)
 
   export let data
   $: ({ events } = data)
+
+  let isApplying = false
 
 </script>
 
@@ -58,8 +63,29 @@
       </Card.Content>
       <Card.Footer>
         <div class="flex gap-2">
-          <Button size="sm" href="/dashboard">Apply</Button>
-          <Button size="sm" href="/dashboard" variant="outline">Learn more</Button>
+          <form method="POST" use:enhance={() => {
+            toast.loading('Loading...')
+            isApplying = true
+            return async ({ result }) => {
+              if (result.type === 'redirect') {
+                goto(result.location)
+                if (result.location == '/auth/login') {
+                  toast.error('Login to continue')
+                }
+                else {
+                  toast.success('Redirecting...')
+                }
+              }
+              else if (result.type == 'error') {
+                console.log(result)
+                toast.error(result.error.message)
+              }
+              isApplying = false
+            }
+          }}>
+            <Button type="submit" name="event" value={event.id} size="sm">Apply</Button>
+          </form>
+          <Button size="sm" href={'/event/' + event.id} variant="outline">Learn more</Button>
         </div>
       </Card.Footer>
     </Card.Root>
