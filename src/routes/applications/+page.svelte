@@ -24,8 +24,8 @@
       <Tabs.Trigger value="submitted">Submitted</Tabs.Trigger>
       <Tabs.Trigger value="archived">Archived</Tabs.Trigger>
     </Tabs.List>
-    <Tabs.Content value="draft">
 
+    <Tabs.Content value="draft">
       <div class="grid grid-cols-3 gap-6">
         {#each applications.filter(i => i.status == 'draft') as application}
         <Card.Root>
@@ -49,8 +49,34 @@
         </Card.Root>
         {/each}
       </div>
-        
     </Tabs.Content>
+
+    <Tabs.Content value="submitted">
+      <div class="grid grid-cols-3 gap-6">
+        {#each applications.filter(i => i.status == 'submitted') as application}
+        <Card.Root>
+          <Card.Header>
+            <Card.Title>
+              {application.expand.event.name}
+            </Card.Title>
+            <Card.Description>
+              {#if application.updated_response} Updated {format(application.updated_response)}
+              {:else} Created {format(application.created)} {/if}
+              <div class="mt-4">
+                <Badge variant="outline">{application.status}</Badge>
+              </div>
+            </Card.Description>
+          </Card.Header>
+          <Card.Footer>
+            <Button size="sm" href={'/applications/' + application.id} variant="ghost" class="underline">
+              View application
+            </Button>
+          </Card.Footer>
+        </Card.Root>
+        {/each}
+      </div>
+    </Tabs.Content>
+
     <Tabs.Content value="archived">
       
     </Tabs.Content>

@@ -24,6 +24,7 @@
 		"@tiptap/pm": "^2.2.1",
 		"@tiptap/starter-kit": "^2.2.1",
 		"autoprefixer": "^10.4.16",
+		"hyperformula": "^2.6.2",
 		"mode-watcher": "^0.1.2",
 		"nanoid": "^5.0.5",
 		"pocketbase": "^0.20.3",
@@ -48,6 +49,8 @@
 	"type": "module",
 	"dependencies": {
 		"@internationalized/date": "^3.5.1",
+		"@tiptap/extension-bubble-menu": "^2.2.4",
+		"@tiptap/extension-floating-menu": "^2.2.4",
 		"bits-ui": "^0.15.1",
 		"clsx": "^2.1.0",
 		"cmdk-sv": "^0.0.13",

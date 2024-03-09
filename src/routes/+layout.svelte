@@ -28,7 +28,7 @@
 <ModeWatcher />
 <Toaster />
 
-<div class="sticky top-0 bg-background">
+<div class="sticky top-0 bg-background z-50">
   <div class="flex items-center gap-2 container py-3">
 
     <div class="mr-auto">
@@ -66,7 +66,7 @@
 </div>
 
 {#if $navigating}
-<div class="absolute top-[65px] bottom-0 left-0 right-0 flex items-center justify-center bg-white z-99" transition:fade={{ duration: 100 }}>
+<div class="absolute top-[65px] bottom-0 left-0 right-0 flex items-center justify-center bg-background z-99" transition:fade={{ duration: 100 }}>
   <img class="h-48" src="/loader.gif" alt="" />
 </div>
 {:else}

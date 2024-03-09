@@ -69,13 +69,6 @@
       <Label>Required</Label>
     </div>
     <div class="flex items-center gap-2">
-      <Checkbox bind:checked={value.isMaxChoices} />
-      <Label>Max characters</Label>
-      {#if value.isMaxChoices}
-        <Input placeholder={'1-' + (value.choices.length)} type="number" class="max-w-32 ml-4 h-4 p-1" bind:value={value.maxChoices} />
-      {/if}
-    </div>
-    <div class="flex items-center gap-2">
       <Checkbox bind:checked={value.others} />
       <Label>Others option</Label>
     </div>
