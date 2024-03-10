@@ -7,6 +7,7 @@
   export let id: string
   export let value: Record<string, any>
   export let disabled: boolean
+  export let valid: boolean
 
   onMount(() => {
     if (value == null) {
@@ -19,6 +20,12 @@
       }
     }
   })
+
+  $: if (value) {
+    valid =
+      (content.required ? value.value.length > 0 : true) &&
+      /^[0-9]{9,13}$/.test(value.value)
+  }
 
 </script>
 
@@ -43,6 +50,10 @@
       bind:value={value.value}
     />
     <div class="flex mt-1 gap-2 items-center">
+      {#if !valid && value.value.length > 0}
+      <span class="text-destructive text-sm">Invalid number</span>
+      <span class="text-sm text-muted-foreground">|</span>
+      {/if}
       {#if content.required}
       <span 
         class="text-sm" 

@@ -4,12 +4,13 @@
   import { File, Trash } from "lucide-svelte"
   import { Button } from "$lib/components/ui/button"
   import { onMount } from "svelte"
-  
+
   export let content: Record<string, any>
   export let idx: number
   export let id: string
   export let value: Record<string, any>
   export let disabled: boolean
+  export let valid: boolean
 
   onMount(() => {
     if (value == null) {
@@ -24,6 +25,13 @@
   })
 
   let form: HTMLFormElement
+
+  $: if (value) {
+    valid =
+      (content.required ? (value.value.length > 0) : true) &&
+      (content.isMaxFiles ? (value.value.length <= parseInt(content.maxFiles)) : true)
+  }
+
 </script>
 
 {#if value}
@@ -86,6 +94,12 @@
     {/if}
     
     <div class="flex mt-1 gap-2 items-center">
+      {#if content.isMaxFiles}
+      <span class="text-sm {value.value.length > parseInt(content.maxFiles) ? 'text-destructive' : 'text-muted-foreground'}">
+        File limit: {content.maxFiles}
+      </span>
+      <span class="text-sm text-muted-foreground">|</span>
+      {/if}
       {#if content.required}
       <span class="text-sm" class:text-muted-foreground={value.value.length} class:text-destructive={!value.value.length}>Required</span>
       {:else}

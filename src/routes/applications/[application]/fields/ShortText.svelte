@@ -7,6 +7,7 @@
   export let id: string
   export let value: Record<string, any>
   export let disabled: boolean
+  export let valid: boolean
 
   onMount(() => {
     if (value == null) {
@@ -19,6 +20,12 @@
       }
     }
   })
+
+  $: if (value) {
+    valid =
+      (content.required ? value.value.length > 0 : true) &&
+      (content.isMaxChar ? (value.value.length <= parseInt(content.maxChar)) : true)
+  }
 
 </script>
 

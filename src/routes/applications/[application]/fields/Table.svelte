@@ -13,6 +13,7 @@
   export let id: string
   export let value: Record<string, any>
   export let disabled: boolean
+  export let valid: boolean
 
   let hfInstance: HyperFormula
   let displayValues: CellValue[][]
@@ -36,6 +37,10 @@
     const tableValues = value.value.tbody.map(row => row.map(cell => cell.value))
     hfInstance = HyperFormula.buildFromArray(tableValues, { licenseKey: 'gpl-v3' })
     displayValues = hfInstance.getSheetValues(0)
+  }
+
+  $: if (value) {
+    valid = true
   }
 
 </script>

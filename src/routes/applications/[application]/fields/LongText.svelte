@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Input } from "$lib/components/ui/input"
+  import { Textarea } from "$lib/components/ui/textarea"
   import { onMount } from "svelte"
   
   export let content: Record<string, any>
@@ -7,6 +7,7 @@
   export let id: string
   export let value: Record<string, any>
   export let disabled: boolean
+  export let valid: boolean
 
   onMount(() => {
     if (value == null) {
@@ -19,6 +20,12 @@
       }
     }
   })
+
+  $: if (value) {
+    valid =
+      (content.required ? value.value.length > 0 : true) &&
+      (content.isMaxChar ? (value.value.length <= parseInt(content.maxChar)) : true)
+  }
 
 </script>
 
@@ -36,7 +43,12 @@
     <span class="text-sm">
       {@html content.description}
     </span>
-    <Input disabled={disabled} class="mt-8 text-xl" placeholder="Type your answer here..." bind:value={value.value} />
+    <Textarea
+      disabled={disabled}
+      class="mt-8 text-xl"
+      placeholder="Type your answer here..."
+      bind:value={value.value}
+    />
     <div class="flex mt-1 gap-2 items-center">
       {#if content.isMaxChar}
       <span class="text-sm" 

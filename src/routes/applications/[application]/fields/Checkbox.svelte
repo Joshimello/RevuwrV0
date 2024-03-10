@@ -8,6 +8,7 @@
   export let id: string
   export let value: Record<string, any>
   export let disabled: boolean
+  export let valid: boolean
   
   onMount(() => {
     if (value == null) {
@@ -28,6 +29,10 @@
   })
 
   $: isSelect = value?.value.some(i => i.value == true) || false
+  
+  $: if (value) {
+    valid = content.required ? isSelect : true
+  }
 
 </script>
 

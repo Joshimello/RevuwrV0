@@ -11,6 +11,7 @@
   export let id: string
   export let value: Record<string, any>
   export let disabled: boolean
+  export let valid: boolean
 
   onMount(() => {
 
@@ -40,6 +41,13 @@
   }
 
   $: isValidLimit = value?.value.length <= parseInt(content.maxMembers) && value?.value.length >= parseInt(content.minMembers)
+
+  $: if (value) {
+    valid =
+      (content.required ? value.value.length > 0 : true) &&
+      (content.isMaxMembers ? (value.value.length <= parseInt(content.maxMembers)) : true) &&
+      (content.isMinMembers ? (value.value.length >= parseInt(content.minMembers)) : true)
+  }
 
 </script>
 
