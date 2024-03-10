@@ -28,6 +28,7 @@
   })
 
   let form: HTMLFormElement
+  let validities: boolean[] = []
 
   // $: console.log(JSON.stringify(value, null, 2))
 </script>
@@ -73,12 +74,19 @@
                 <AlertDialog.Title>Application submission</AlertDialog.Title>
                 <AlertDialog.Description>
                   You are about to submit your application. Are you sure? <br>
-                  You will not be able to edit your response after submission.
+                  You will not be able to edit your response after submission. <br>
+                  <br>
+                  {#if validities.filter(v => !v).length > 0}
+                    <span class="text-destructive">Some questions are not answered correctly.</span><br>
+                    <span class="text-destructive">Question numbers: 
+                      {validities.map((v, i) => v ? '' : i+1).filter(String).join(', ')}
+                    </span>
+                  {/if}
                 </AlertDialog.Description>
               </AlertDialog.Header>
               <AlertDialog.Footer>
                 <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-                <Button type="submit" name="action" value="submit" disabled={isSaving}>
+                <Button type="submit" name="action" value="submit" disabled={isSaving || validities.filter(v => !v).length > 0}>
                   Submit
                 </Button>
               </AlertDialog.Footer>
@@ -115,6 +123,7 @@
         disabled={!isDraft}
         this={fieldTypes[question.type].component}
         bind:content={question.value}
+        bind:valid={validities[idx]}
         bind:value={value[idx]}
         id={question.id}
         idx={idx}

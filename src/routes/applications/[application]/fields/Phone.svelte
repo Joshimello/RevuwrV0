@@ -24,7 +24,7 @@
   $: if (value) {
     valid =
       (content.required ? value.value.length > 0 : true) &&
-      /^[0-9]{9,13}$/.test(value.value)
+      (value.value.length > 0 ? /^[0-9]{9,13}$/.test(value.value) : true)
   }
 
 </script>
