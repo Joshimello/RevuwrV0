@@ -5,6 +5,7 @@
   import { Badge } from "$lib/components/ui/badge"
   import { Button } from "$lib/components/ui/button"
   import { format } from "timeago.js"
+  import { FileClock, Ticket } from "lucide-svelte"
 
   export let data
   $: ({ applications } = data)
@@ -34,8 +35,17 @@
               {application.expand.event.name}
             </Card.Title>
             <Card.Description>
-              {#if application.updated_response} Updated {format(application.updated_response)}
-              {:else} Created {format(application.created)} {/if}
+              <div class="flex flex-col">
+                <span class="flex gap-1 items-center">
+                  <FileClock size="16"/>
+                  {#if application.updated_response} Updated {format(application.updated_response)}
+                  {:else} Created {format(application.created)} {/if}
+                </span>
+                <span class="flex gap-1 items-center">
+                  <Ticket size="16"/>
+                  {application.expand.event.settings.responsePrefix}{application.application_id.toString().padStart(3, '0')}
+                </span>
+              </div>
               <div class="mt-4">
                 <Badge variant="outline">{application.status}</Badge>
               </div>
@@ -60,8 +70,17 @@
               {application.expand.event.name}
             </Card.Title>
             <Card.Description>
-              {#if application.updated_response} Updated {format(application.updated_response)}
-              {:else} Created {format(application.created)} {/if}
+              <div class="flex flex-col">
+                <span class="flex gap-1 items-center">
+                  <FileClock size="16"/>
+                  {#if application.updated_response} Updated {format(application.updated_response)}
+                  {:else} Created {format(application.created)} {/if}
+                </span>
+                <span class="flex gap-1 items-center">
+                  <Ticket size="16"/>
+                  {application.expand.event.settings.responsePrefix}{application.application_id.toString().padStart(3, '0')}
+                </span>
+              </div>
               <div class="mt-4">
                 <Badge variant="outline">{application.status}</Badge>
               </div>
