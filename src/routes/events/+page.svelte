@@ -11,7 +11,7 @@
   let list = new Array(3)
 
   export let data
-  $: ({ events } = data)
+  $: ({ events, user } = data)
 
   let isApplying = false
 
@@ -77,7 +77,6 @@
                 }
               }
               else if (result.type == 'error') {
-                console.log(result)
                 toast.error(result.error.message)
               }
               isApplying = false

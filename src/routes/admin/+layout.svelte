@@ -17,7 +17,7 @@
   <title>Admin | CTLD</title> 
 </svelte:head>
 
-<div class="sticky top-[65px] bg-background">
+<div class="sticky top-[65px] bg-background z-50">
   <div class="container py-1 grid grid-cols-3">
 
     <div class="flex items-center gap-1">

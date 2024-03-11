@@ -2,6 +2,7 @@ import { PB_URL, PB_USER, PB_PASS, RS_KEY } from '$env/static/private'
 import { type TypedPocketBase } from "$lib/pocketbase-types"
 import PocketBase from 'pocketbase'
 import { Resend } from 'resend'
+import { error } from '@sveltejs/kit'
 
 export const handle = async ({ event, resolve }) => {
   
@@ -21,6 +22,9 @@ export const handle = async ({ event, resolve }) => {
   }
 
 
+  if (event.url.pathname.startsWith('/admin') && (!event.locals.user || event.locals.user.admin == false)) {
+    return error(403, 'Forbidden')
+  }
 
   // admin pocketbase instance
   // if (event.locals.user) {

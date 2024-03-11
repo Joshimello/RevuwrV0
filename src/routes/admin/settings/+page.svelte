@@ -2,7 +2,7 @@
   import * as Table from "$lib/components/ui/table"
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu"
   import { Button } from "$lib/components/ui/button"
-  import { EllipsisVertical, Trash, KeySquare } from "lucide-svelte"
+  import { EllipsisVertical, Trash, KeySquare, UserCog } from "lucide-svelte"
   import { enhance } from '$app/forms'
   import { toast } from "svelte-sonner"
 	import { invalidateAll } from "$app/navigation"
@@ -81,9 +81,13 @@
               <DropdownMenu.RadioItem value="admin" disabled={user.admin}>Admin</DropdownMenu.RadioItem>
             </DropdownMenu.RadioGroup>
             <DropdownMenu.Separator />
-            <DropdownMenu.Item class="flex items-center gap-2">
+            <DropdownMenu.Item class="flex items-center gap-2" disabled>
+              <UserCog size="16" />
+              (WIP) Edit details
+            </DropdownMenu.Item>
+            <DropdownMenu.Item class="flex items-center gap-2" disabled>
               <Trash size="16" />
-              Delete user
+              (WIP) Delete user
             </DropdownMenu.Item>
           </DropdownMenu.Content>
         </DropdownMenu.Root>
