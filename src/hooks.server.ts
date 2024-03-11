@@ -1,11 +1,12 @@
 import { PB_URL, PB_USER, PB_PASS, RS_KEY } from '$env/static/private'
+import { type TypedPocketBase } from "$lib/pocketbase-types"
 import PocketBase from 'pocketbase'
 import { Resend } from 'resend'
 
 export const handle = async ({ event, resolve }) => {
   
   // user pocketbase instance
-  event.locals.pb = new PocketBase(PB_URL)  
+  event.locals.pb = new PocketBase(PB_URL) as TypedPocketBase
   event.locals.pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '')
 
   try {
@@ -22,16 +23,16 @@ export const handle = async ({ event, resolve }) => {
 
 
   // admin pocketbase instance
-  if (event.locals.user) {
-    event.locals.apb = new PocketBase(PB_URL)
+  // if (event.locals.user) {
+  //   event.locals.apb = new PocketBase(PB_URL)
 
-    try {
-      await event.locals.apb.admins.authWithPassword(PB_USER, PB_PASS)
-    }
-    catch (_) {
-      event.locals.apb = undefined
-    }
-  }
+  //   try {
+  //     await event.locals.apb.admins.authWithPassword(PB_USER, PB_PASS)
+  //   }
+  //   catch (_) {
+  //     event.locals.apb = undefined
+  //   }
+  // }
 
 
   // resend instance

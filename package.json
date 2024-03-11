@@ -9,7 +9,8 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check .",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"typegen": "pocketbase-typegen --db ./pb/pb_data/data.db --out ./src/lib/pocketbase-types.ts"
 	},
 	"devDependencies": {
 		"@fontsource-variable/inter": "^5.0.16",
@@ -25,9 +26,11 @@
 		"@tiptap/starter-kit": "^2.2.1",
 		"autoprefixer": "^10.4.16",
 		"hyperformula": "^2.6.2",
+		"lucide-svelte": "^0.354.0",
 		"mode-watcher": "^0.1.2",
 		"nanoid": "^5.0.5",
 		"pocketbase": "^0.20.3",
+		"pocketbase-typegen": "^1.2.1",
 		"postcss": "^8.4.32",
 		"postcss-load-config": "^5.0.2",
 		"prettier": "^3.1.1",
@@ -55,7 +58,6 @@
 		"clsx": "^2.1.0",
 		"cmdk-sv": "^0.0.13",
 		"formsnap": "^0.4.2",
-		"lucide-svelte": "^0.312.0",
 		"sveltekit-superforms": "^1.13.4",
 		"tailwind-merge": "^2.2.0",
 		"tailwind-variants": "^0.1.20",

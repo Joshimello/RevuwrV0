@@ -1,6 +1,10 @@
 import { error, redirect } from "@sveltejs/kit"
 
 export const load = async ({ locals, params }) => {
+  if (!locals.user) {
+    return redirect(302, '/account')
+  } 
+
   try {
     const records = await locals.pb.collection('applications').getFullList({
       expand: 'event',
