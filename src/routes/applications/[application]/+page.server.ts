@@ -26,7 +26,7 @@ export const actions = {
       return error(500, err?.message || JSON.stringify(err))
     }
 
-    if (record.status != 'draft') {
+    if (!['draft', 'reviewed'].includes(record.status)) {
       return error(400, `Application is not in draft status`)
     }
 

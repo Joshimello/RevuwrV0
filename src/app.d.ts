@@ -2,6 +2,7 @@
 // for information about these interfaces
 import { type TypedPocketBase } from "$lib/pocketbase-types"
 import { type AuthModel } from 'pocketbase'
+import { type Resend } from 'resend'
 
 declare global {
 	namespace App {
@@ -9,6 +10,7 @@ declare global {
 		interface Locals {
 			pb: TypedPocketBase
 			user: AuthModel | undefined
+			rs: Resend
 		}
 		// interface PageData {}
 		// interface PageState {}

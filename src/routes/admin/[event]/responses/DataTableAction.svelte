@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { EllipsisVertical, Download, Eye, FileOutput } from "lucide-svelte"
+  import { EllipsisVertical, Download, Eye, FileOutput, FileSearch, Minimize2 } from "lucide-svelte"
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu"
   import { Button } from "$lib/components/ui/button"
   import * as Dialog from "$lib/components/ui/dialog"
@@ -13,6 +13,9 @@
   import { fly } from "svelte/transition"
   import { enhance } from '$app/forms'
   import { Input } from "$lib/components/ui/input"
+  import * as AlertDialog from "$lib/components/ui/alert-dialog"
+  import { Textarea } from "$lib/components/ui/textarea"
+  import { invalidateAll } from "$app/navigation"
   
   export let application: ApplicationsResponse
 
@@ -32,9 +35,11 @@
   }))
 
   let open = false
+  let approveOpen = false
+  let rejectOpen = false
 </script>
 
-{#if selected.some(i => i == true)}
+{#if selected.some(i => i == true) && open}
 <div transition:fly={{ duration: 200, y: 50 }} class="fixed inset-x-0 mx-auto bottom-4 max-w-md z-[51]">
   <Alert.Root>
     <FileOutput size="16" />
@@ -48,6 +53,7 @@
             toast.success('Returned!')
             open = false
             selected = selected.map(i => false)
+            invalidateAll()
           }
           else if (result.type == 'error') toast.error(result.error.message)
           isSaving = false
@@ -64,22 +70,126 @@
 </div>
 {/if}
 
+{#if !selected.some(i => i == true) && open}
+<div transition:fly={{ duration: 200, y: 50 }} class="fixed inset-x-0 mx-auto bottom-4 max-w-md z-[51]">
+  <Alert.Root>
+    <FileSearch size="16" />
+    <Alert.Title>Application actions</Alert.Title>
+    <Alert.Description>
+      <div class="flex gap-1 mt-3">
+        <AlertDialog.Root bind:open={rejectOpen}>
+          <AlertDialog.Trigger asChild let:builder>
+            <Button class="flex-1" builders={[builder]} variant="outline" disabled={approveOpen || rejectOpen}>
+              Reject
+            </Button>
+          </AlertDialog.Trigger>
+          <AlertDialog.Content>
+            <AlertDialog.Header>
+              <AlertDialog.Title>Application rejection confirmation</AlertDialog.Title>
+              <AlertDialog.Description>
+                <form method="POST" action="?/reject" use:enhance={() => {
+                  toast.loading('Returning...')
+                  isSaving = true
+                  return async ({ result }) => {
+                    if(result.type == 'success') {
+                      toast.success('Returned!')
+                      open = false
+                      rejectOpen = false
+                      invalidateAll()
+                    }
+                    else if (result.type == 'error') toast.error(result.error.message)
+                    isSaving = false
+                  }
+                }}>
+                  <Textarea placeholder="Message for rejection..." name="message" />
+                  <input type="hidden" name="id" value={application.id} />
+                  <div class="flex gap-1 w-full justify-end mt-2">
+                    <Button variant="outline" disabled={isSaving} size="sm" on:click={() => {
+                      rejectOpen = false
+                    }}>
+                      Cancel
+                    </Button>
+                    <Button type="submit" variant="destructive" size="sm" disabled={isSaving}>
+                      Reject
+                    </Button>
+                  </div>
+                </form>
+              </AlertDialog.Description>
+            </AlertDialog.Header>
+          </AlertDialog.Content>
+        </AlertDialog.Root>
+
+        <AlertDialog.Root bind:open={approveOpen}>
+          <AlertDialog.Trigger asChild let:builder>
+            <Button class="flex-1" builders={[builder]} disabled={approveOpen || rejectOpen}>
+              Approve
+            </Button>
+          </AlertDialog.Trigger>
+          <AlertDialog.Content>
+            <AlertDialog.Header>
+              <AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
+              <AlertDialog.Description>
+                <form method="POST" action="?/approve" use:enhance={() => {
+                  toast.loading('Returning...')
+                  isSaving = true
+                  return async ({ result }) => {
+                    if(result.type == 'success') {
+                      toast.success('Returned!')
+                      open = false
+                      approveOpen = false
+                      invalidateAll()
+                    }
+                    else if (result.type == 'error') toast.error(result.error.message)
+                    isSaving = false
+                  }
+                }}>
+                  <Textarea placeholder="Message for approval..." name="message" />
+                  <input type="hidden" name="id" value={application.id} />
+                  <div class="flex gap-1 w-full justify-end mt-2">
+                    <Button variant="outline" disabled={isSaving} size="sm" on:click={() => {
+                      approveOpen = false
+                    }}>
+                      Cancel
+                    </Button>
+                    <Button type="submit" size="sm" disabled={isSaving}>
+                      Approve
+                    </Button>
+                  </div>
+                </form>
+              </AlertDialog.Description>
+            </AlertDialog.Header>
+          </AlertDialog.Content>
+        </AlertDialog.Root>
+
+        <Button variant="outline" size="icon" on:click={() => {
+          open = false
+          approveOpen = false
+          rejectOpen = false
+        }}>
+          <Minimize2 size="16" />
+        </Button>
+      </div>
+    </Alert.Description>
+  </Alert.Root>
+</div>
+{/if}
+
 <div class="flex gap-1">
-  <Dialog.Root bind:open={open}>
-    <Dialog.Trigger asChild let:builder>
+  <AlertDialog.Root bind:open={open}>
+    <AlertDialog.Trigger asChild let:builder>
       <Button variant="outline" builders={[builder]} size="icon" class="relative h-8 w-8 p-0">
         <Eye size="16" />
       </Button>
-    </Dialog.Trigger>
-    <Dialog.Content class="h-screen !max-w-xl overflow-auto pb-64">
-      <Dialog.Header>
-        <Dialog.Title>
+    </AlertDialog.Trigger>
+    <AlertDialog.Content class="h-screen !max-w-xl overflow-auto pb-64">
+      <AlertDialog.Header>
+        <AlertDialog.Title>
           Application response
-        </Dialog.Title>
-        <Dialog.Description>
+        </AlertDialog.Title>
+        <AlertDialog.Description>
           {application.expand.responder.username} / {application.expand.responder.email}
-        </Dialog.Description>
-      </Dialog.Header>
+        </AlertDialog.Description>
+      </AlertDialog.Header>
       <div class="flex flex-col gap-12">
       {#each application.response as item, idx}
         <div class="flex gap-4">
@@ -173,8 +283,8 @@
         </div>
       {/each}
       </div>
-    </Dialog.Content>
-  </Dialog.Root>
+    </AlertDialog.Content>
+  </AlertDialog.Root>
 
   <DropdownMenu.Root>
     <DropdownMenu.Trigger asChild let:builder>
@@ -188,14 +298,12 @@
       </Button>
     </DropdownMenu.Trigger>
     <DropdownMenu.Content>
-      <DropdownMenu.Group>
-        <DropdownMenu.Item>
-          Copy payment ID
-        </DropdownMenu.Item>
-      </DropdownMenu.Group>
-      <DropdownMenu.Separator />
-      <DropdownMenu.Item>View customer</DropdownMenu.Item>
-      <DropdownMenu.Item>View payment details</DropdownMenu.Item>
+      <DropdownMenu.Item target="_blank" href={`/api/csv?event=${application.event}&ids=${application.id}`}>
+        Download as CSV
+      </DropdownMenu.Item>
+      <DropdownMenu.Item disabled>
+        Download as PDF
+      </DropdownMenu.Item>
     </DropdownMenu.Content>
   </DropdownMenu.Root>
   
@@ -213,14 +321,7 @@
       </Button>
     </DropdownMenu.Trigger>
     <DropdownMenu.Content>
-      <DropdownMenu.Group>
-        <DropdownMenu.Item>
-          Copy payment ID
-        </DropdownMenu.Item>
-      </DropdownMenu.Group>
-      <DropdownMenu.Separator />
-      <DropdownMenu.Item>View customer</DropdownMenu.Item>
-      <DropdownMenu.Item>View payment details</DropdownMenu.Item>
+      <DropdownMenu.Item></DropdownMenu.Item>
     </DropdownMenu.Content>
   </DropdownMenu.Root>  
 </div>

@@ -63,7 +63,7 @@
 
     <Tabs.Content value="submitted">
       <div class="grid grid-cols-3 gap-6">
-        {#each applications.filter(i => i.status == 'submitted') as application}
+        {#each applications.filter(i => !['draft', 'archived'].includes(i.status)) as application}
         <Card.Root>
           <Card.Header>
             <Card.Title>

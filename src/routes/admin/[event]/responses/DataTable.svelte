@@ -6,13 +6,17 @@
   import DataTableAction from "./DataTableAction.svelte"
   import { addSortBy, addTableFilter, addSelectedRows, addColumnFilters } from "svelte-headless-table/plugins"
   import { Button } from "$lib/components/ui/button"
-  import { ArrowUpDown, ListRestart } from "lucide-svelte"
+  import { ArrowUpDown, Download, ListRestart, SquareCheckBig, ListChecks, Send } from "lucide-svelte"
   import { Input } from "$lib/components/ui/input"
   import DataTableCheckbox from "./DataTableCheckbox.svelte"
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu"
   import { invalidateAll } from "$app/navigation"
 	import { toast } from "svelte-sonner";
   import * as Select from "$lib/components/ui/select"
+  import * as Alert from "$lib/components/ui/alert"
+  import { fly } from "svelte/transition"
+  import { enhance } from "$app/forms"
+  import * as Dialog from "$lib/components/ui/dialog"
 
   export let event: EventsResponse
   export let records: ApplicationsResponse[]
@@ -96,7 +100,103 @@
   const { filterValue } = pluginStates.filter
   const { selectedDataIds } = pluginStates.select
   const { preFilteredRows, filterValues } = pluginStates.colFilter
+
+  let isSaving = false
 </script>
+
+{#if Object.keys($selectedDataIds).length > 0}
+<div transition:fly={{ duration: 200, y: 50 }} class="fixed inset-x-0 mx-auto bottom-4 max-w-md">
+  <Alert.Root>
+    <SquareCheckBig size="16" />
+    <Alert.Title>Selected {Object.keys($selectedDataIds).length} application{Object.keys($selectedDataIds).length > 1 ? 's' : ''}</Alert.Title>
+    <Alert.Description>
+      <form class="mt-3" method="POST" action="?/review" use:enhance={() => {
+        toast.loading('Returning...')
+        isSaving = true
+        return async ({ result }) => {
+          if(result.type == 'success') {
+            toast.success('Returned!')
+          }
+          else if (result.type == 'error') toast.error(result.error.message)
+          isSaving = false
+        }
+      }}>
+        <input type="hidden" name="review" value={""} />
+        <div class="flex gap-1">
+          <Dialog.Root>
+            <Dialog.Trigger asChild let:builder>
+              <Button
+                builders={[builder]}
+                variant="outline"
+                size="icon"
+              >
+                <Send size="16" />
+              </Button>
+            </Dialog.Trigger>
+            <Dialog.Content>
+              <Dialog.Header>
+                <Dialog.Title>Are you sure absolutely sure?</Dialog.Title>
+                <Dialog.Description>
+                  This action cannot be undone. This will permanently delete your account
+                  and remove your data from our servers.
+                </Dialog.Description>
+              </Dialog.Header>
+            </Dialog.Content>
+          </Dialog.Root>
+
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger asChild let:builder>
+              <Button
+                variant="outline"
+                builders={[builder]}
+                size="icon"
+              >
+                <ListChecks size="16" />
+              </Button>
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Content>
+              <DropdownMenu.Label>Set statuses to</DropdownMenu.Label>
+              <DropdownMenu.Separator />
+              <DropdownMenu.Item>
+                Approved
+              </DropdownMenu.Item>
+              <DropdownMenu.Item>
+                Rejected
+              </DropdownMenu.Item>
+              <DropdownMenu.Item>
+                Reviewed
+              </DropdownMenu.Item>
+              <DropdownMenu.Item>
+                Draft
+              </DropdownMenu.Item>
+            </DropdownMenu.Content>
+          </DropdownMenu.Root>
+          
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger asChild let:builder>
+              <Button
+                variant="outline"
+                builders={[builder]}
+                size="icon"
+              >
+                <Download size="16" />
+              </Button>
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Content>
+              <DropdownMenu.Item target="_blank" href={`/api/csv?event=${event.id}&ids=${Object.keys($selectedDataIds).map(i => records[+i].id).join(",")}`}>
+                Download as CSV
+              </DropdownMenu.Item>
+              <DropdownMenu.Item disabled>
+                Download as PDF
+              </DropdownMenu.Item>
+            </DropdownMenu.Content>
+          </DropdownMenu.Root>
+        </div>
+      </form>
+    </Alert.Description>
+  </Alert.Root>
+</div>
+{/if}
 
 <div class="flex items-center py-4 gap-1">
   <Button variant="outline" size="icon" on:click={() => {
