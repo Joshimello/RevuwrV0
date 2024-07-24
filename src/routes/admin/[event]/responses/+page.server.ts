@@ -75,5 +75,21 @@ export const actions = {
       return error(500, err?.message || JSON.stringify(err))
     }
 
+  },
+  sendreview: async ({ locals, request, params }) => {
+    const data = await request.formData()
+    const ids = data.get('ids') as string
+    let idList = ids.split(',')
+
+    try {
+      const records = await locals.pb.collection('reviews').create({
+        'applications': idList,
+      })
+      return records
+    }
+    catch (err) {
+      return error(500, err?.message || JSON.stringify(err))
+    }
+
   }
 }

@@ -7,8 +7,9 @@
   import * as Table from "$lib/components/ui/table"
 	import { onMount } from "svelte";
 	import Button from "$lib/components/ui/button/button.svelte";
-	import { CaseLower, Edit, Plus, Sigma, TextCursorInput, Trash } from "lucide-svelte";
-  
+	import { BarChart4, CaseLower, Edit, Plus, Sigma, TextCursorInput, Trash } from "lucide-svelte";
+  import * as Popover from "$lib/components/ui/popover"
+
   export let value: Record<string, any>
   export let idx: number
 
@@ -16,6 +17,10 @@
     value.th ??= ['Item', 'Price', 'Quantity', 'Total']
     value.tbody ??= [[{ type: 'text', value: 'Katsudon' }, { type: 'input', value: '150' }, { type: 'input', value: '3' }, { type: 'formula', value: '=A1*B1' }]]
   })
+
+  let cellToRead = ''
+  let rangeInput = ['', '']
+  let rangeOutput = ['']
 </script>
 
 <div class="flex-1 flex flex-col gap-4">
@@ -56,6 +61,9 @@
                   value.th = value.th
                   value.tbody = value.tbody
                 }}>
+                  <span class="">
+                    {idx+1}
+                  </span>
                   <Trash size="12" />
                 </Button>
                 <Input bind:value={th} class="h-6" placeholder="Header item" />
@@ -72,6 +80,9 @@
                 value.tbody.splice(idx, 1)
                 value.tbody = value.tbody
               }}>
+                <span class="">
+                  {String.fromCharCode(65 + idx)}
+                </span>
                 <Trash size="12" />
               </Button>
             </Table.Cell>
@@ -81,14 +92,50 @@
                 <Button variant="outline" size="icon" class="h-6 w-8" on:click={() => {
                   if (cell.type == 'text') cell.type = 'input'
                   else if (cell.type == 'input') cell.type = 'formula'
+                  else if (cell.type == 'formula') cell.type = 'range'
                   else cell.type = 'text'
                 }}>
                   {#if cell.type == 'input'} <TextCursorInput size="12" />
                   {:else if cell.type == 'text'} <CaseLower size="12" />
                   {:else if cell.type == 'formula'} <Sigma size="12" />
+                  {:else if cell.type == 'range'} <BarChart4 size="12" />
                   {/if}
                 </Button>
+                {#if cell.type == 'range'}
+                <Popover.Root>
+                  <Popover.Trigger asChild let:builder>
+                    <Button builders={[builder]} class="h-6 w-full" variant="outline">
+                      Set range
+                    </Button>
+                  </Popover.Trigger>
+                  <Popover.Content>
+                    <Input placeholder="Cell to read" class="h-6 mb-4" bind:value={cellToRead} />
+                    <div class="flex gap-2">
+                      <div class="flex flex-col gap-1">
+                        {#each rangeInput as input, idx}
+                        <Input bind:value={input} class="h-6" placeholder="Input" />
+                        {/each}
+                        <Button variant="outline" class="h-6" on:click={() => {
+                          rangeInput = [...rangeInput, '']
+                          rangeOutput = [...rangeOutput, '']
+                        }}>Add input</Button>
+                      </div>
+                      <div class="mt-3 flex flex-col gap-1">
+                        {#each rangeOutput as output, idx}
+                        <span>-></span>
+                        {/each}
+                      </div>
+                      <div class="flex flex-col gap-1 mt-3">
+                        {#each rangeOutput as output, idx}
+                        <Input bind:value={rangeOutput[idx]} class="h-6" placeholder="Output" />
+                        {/each}
+                      </div>
+                    </div>
+                  </Popover.Content>
+                </Popover.Root>
+                {:else}
                 <Input bind:value={cell.value} class="h-6" placeholder="Cell item" />
+                {/if}
               </div>
             </Table.Cell>
             {/each}

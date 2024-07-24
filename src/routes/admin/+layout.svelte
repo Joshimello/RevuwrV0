@@ -49,6 +49,11 @@
       }}>
         Responses
       </Button>
+      <Button size="sm" variant="ghost" class="underline" on:click={() => {
+        goto('/admin/' + $page.params.event + '/reviews', { invalidateAll: true })
+      }}>
+        Reviews
+      </Button>
       {:else}
       <Button size="sm" variant="ghost"></Button>
       {/if}

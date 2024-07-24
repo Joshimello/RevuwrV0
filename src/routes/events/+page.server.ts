@@ -49,7 +49,7 @@ export const actions = {
     }
 
 
-    // Create application
+    // Create application 
     let record = undefined
     try {
       eventRecord = await locals.pb.collection('events').update(eventRecord.id, {
