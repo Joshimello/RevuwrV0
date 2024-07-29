@@ -1,0 +1,31 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run npm run dev on startup",
+      "type": "shell",
+      "command": "npm run dev",
+      "windows": {
+        "command": "npm run dev"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "runOptions": { "runOn": "folderOpen" }
+    },
+    {
+      "label": "Start pocketbase dev db on startup",
+      "type": "shell",
+      "command": "./pb/pocketbase.exe serve",
+      "windows": {
+        "command": "./pb/pocketbase.exe serve"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "runOptions": { "runOn": "folderOpen" }
+    }
+  ]
+}
